@@ -1,0 +1,12 @@
+<svg height="400" width="450" xmlns="http://www.w3.org/2000/svg">
+<path id="lineDE" d="M 14 51 L 37 51" stroke="green" stroke-width="1" fill ="none" />
+<path id="lineBC" d="M 13 32 L 38 32" stroke="black" stroke-width="1" fill ="none" />
+<path id="lineCEGI" d="M 38 32 L 37 51 L 39 71 L 41 99" stroke="blue" stroke-width="1" fill ="none" />
+<path id="lineFG" d="M 14 71 L 39 71" stroke="blue" stroke-width="1" fill ="none" />
+<path id="lineXDA" d="M 14 100 L 14 51 L 12 10 " stroke="red" stroke-width="1" fill ="none" />
+<path id="lineXHI" d="M 14 100 L 38 100 L 41 99" stroke="pink" stroke-width="1" fill ="none" />
+<path id="lineJK" d="M 20 7 L 33 12" stroke="black" stroke-width="1" fill ="none" />
+
+<path id="QlineCK" d="M 38 32 A 7 13 0 0 1 33 12" stroke="orange" stroke-width="1" fill ="none" />
+<path id="QlineAJ" d="M 12 10 A 7 3 0 0 0 20 7" stroke="orange" stroke-width="1" fill ="none" />
+</svg>
