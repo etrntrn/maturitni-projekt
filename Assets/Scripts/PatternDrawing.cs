@@ -9,7 +9,6 @@ using UnityEditor;
 public class PatternDrawing : MonoBehaviour
 {
     // Údaje od uživatele + pomocné míry
-    //static User user;
 
     private LineRenderer line;
     static int vyskaPostavy; //168;
@@ -25,24 +24,33 @@ public class PatternDrawing : MonoBehaviour
     static int sirkaRamene; //13;
     static int delkaRukavu; //60;
 
-
-    //GameObject myCanvas;
-    //GameObject line3;
     LineRenderer lr;
     static int numberPoints = 200;
     Vector3[] bezierPositions = new Vector3[numberPoints];
 
-    void Zapis()
+    public string GetFileName(User user) // VÝJIMKY
     {
-      
+        string s = "";
+        string tmpFilePath = user.CompleteFilePath(false, "txt", "tmp_currentName");
 
+        using (StreamReader sr = new StreamReader(tmpFilePath))
+        {
+            s = sr.ReadLine();
+        }
+        if (s == null)
+        {
+            s = " ";
+            Debug.Log("jméno je prázdné");
+        }
+        return s;
     }
 
     void Start()
     {
         //user = FindObjectOfType<User>();
-        User user = gameObject.AddComponent<User>();
+        //User user = gameObject.AddComponent<User>();
         //user = User.GetData(DataTreatment.NoteUserMeasures().field);
+        User user = new User();
         user.ReadData();
         vyskaPostavy = user.vyskaPostavy; //168;
         obvodHrudnikuX = user.obvodHrudniku; //96;
@@ -65,7 +73,7 @@ public class PatternDrawing : MonoBehaviour
         Debug.Log(user.sirkaRamene);
         Debug.Log(user.delkaRukavu);
 
-        //ctrlV
+        //CV
         float obvodHrudniku12 = obvodHrudnikuX / 2;
         float obvodPasu12 = obvodPasuX / 2;
         float obvodSedu12 = obvodSeduX / 2;
@@ -79,15 +87,12 @@ public class PatternDrawing : MonoBehaviour
         float sprur = (obvodHrudniku12 / 4) + 0.5f;
         float prs = (obvodHrudniku12 / 2) - 4 + 1.5f;
 
-
         //Výpočty zadní část
-        int pocatecniSouradniceX = 12;
-        int pocatecniSouradniceY = 12;
+        int pocatecniSouradniceX = 10;
+        int pocatecniSouradniceY = 10;
 
         int vyskaPlatna = delkaOdevu + 22 + pocatecniSouradniceY;
         int sirkaPlatna = (int)System.Math.Round(obvodPasu12 * 3 + pocatecniSouradniceX);
-
-        
 
         int souradniceXbodX = pocatecniSouradniceX + 2;
         Vector3 bodX = new Vector3(pocatecniSouradniceX + 2, pocatecniSouradniceY, 0);
@@ -130,7 +135,6 @@ public class PatternDrawing : MonoBehaviour
         int souradniceYbodPomocneJ = souradniceYbodA;
         Vector3 pomocneJ = new Vector3(souradniceXbodPomocneJ, souradniceYbodPomocneJ);
         //--
-
         int souradniceYzasevekA1 = souradniceYbodD - 15;
         int souradniceYzasevekA2 = souradniceYbodD + 15;
         int sirkaZasevkuA = (int)System.Math.Round(2.5f);
@@ -140,7 +144,6 @@ public class PatternDrawing : MonoBehaviour
         int souradniceYzasevekA4 = souradniceYbodD;
         int souradniceXzasevekA3 = souradniceXzasevekA2 - (sirkaZasevkuA / 2);
         int souradniceXzasevekA4 = souradniceXzasevekA3 + sirkaZasevkuA;
-
 
         int souradniceYbodL = (int)System.Math.Round(souradniceYbodA - (((souradniceYbodA - souradniceYbodC) / 2) + 0.5f));
         int souradniceXbodL = (int)System.Math.Round(pocatecniSouradniceX + 1 + szv + 1); //souradniceXbodC - (2 * sprur / 3) - 1;
@@ -152,7 +155,6 @@ public class PatternDrawing : MonoBehaviour
         Vector3 bodL1 = new Vector3(souradniceXbodL, souradniceYbodL1, 0);
         int souradniceYbodL2 = (int)Math.Round(souradniceYbodL - 0.6f);
         Vector3 bodL2 = new Vector3(souradniceXbodL, souradniceYbodL2, 0);
-
 
         Vector3 zasevekA1 = new Vector3(souradniceXzasevekA1, souradniceYzasevekA1, 0);
         Vector3 zasevekA2 = new Vector3(souradniceXzasevekA2, souradniceYzasevekA2, 0);
@@ -235,12 +237,14 @@ public class PatternDrawing : MonoBehaviour
 
         float VW = souradniceYbodW - souradniceYbodV;
         float srv3 = srv - 3;
-        int souradniceXbodW = (int)Math.Round(souradniceXbodV + Math.Sqrt(srv3 * srv3 - VW * VW));
+        int souradniceXbodW;
+        if ((srv3 * srv3) >= (VW * VW))
+        souradniceXbodW = (int)Math.Round(souradniceXbodV + Math.Sqrt((srv3 * srv3) - (VW * VW)));
+        else
+            souradniceXbodW = (int)Math.Round(souradniceXbodV + Math.Sqrt((VW * VW) - (srv3 * srv3)));
         // odmocnina z (spur na druhou + V-W na druhou)
 
-        //--konec ctrl
-
-
+        //--konec CV
 
         // přední část
 
@@ -330,8 +334,8 @@ public class PatternDrawing : MonoBehaviour
         souradniceYzasevekB3 = vyskaPlatna - souradniceYzasevekB3;
         souradniceYzasevekB4 = vyskaPlatna - souradniceYzasevekB4;
 
-
-        using (StreamWriter sw = new StreamWriter(@"souboooor.svg", false))
+        string pathSavePattern = user.CompleteFilePath(true, "svg", GetFileName(user));
+        using (StreamWriter sw = new StreamWriter(pathSavePattern, false))
         {
             sw.WriteLine("<svg height=\"400\" width=\"450\" xmlns=\"http://www.w3.org/2000/svg\">");
             sw.WriteLine("<path id=\"lineDE\" d=\"M {0} {1} L {2} {3}\" stroke=\"grey\" stroke-width=\"1\" stroke-dasharray=\"1\" fill =\"none\" />", souradniceXbodX, souradniceYbodD, souradniceXbodE, souradniceYbodD);
@@ -342,9 +346,9 @@ public class PatternDrawing : MonoBehaviour
             sw.WriteLine("<path id=\"lineXHI\" d=\"M {0} {1} L {2} {3} L {4} {5}\" stroke=\"black\" stroke-width=\"1\" fill =\"none\" />", souradniceXbodX, pocatecniSouradniceY, souradniceXbodH, pocatecniSouradniceY, souradniceXbodI, souradniceYbodI);
             sw.WriteLine("<path id=\"lineJK\" d=\"M {0} {1} L {2} {3}\" stroke=\"black\" stroke-width=\"1\" fill =\"none\" />", souradniceXbodJ, souradniceYbodJ, souradniceXbodK, souradniceYbodK);
             sw.WriteLine("<path id=\"zasevekA\" d=\"M {0} {1} L {2} {3} L {4} {5} L {6} {7} L {0} {1}\" stroke=\"black\" stroke-width=\"1\" fill =\"none\" />", souradniceXzasevekA1, souradniceYzasevekA1, souradniceXzasevekA3, souradniceYzasevekA3, souradniceXzasevekA2, souradniceYzasevekA2, souradniceXzasevekA4, souradniceYzasevekA4);
-            sw.WriteLine("<path id=\"QlineCK\" d=\"M {0} {1} A 7 13 0 0 1 {2} {3}\" stroke=\"orange\" stroke-width=\"1\" fill =\"none\" />", souradniceXbodC, souradniceYbodC, souradniceXbodK, souradniceYbodK);
+            //sw.WriteLine("<path id=\"QlineCK\" d=\"M {0} {1} A 7 13 0 0 1 {2} {3}\" stroke=\"orange\" stroke-width=\"1\" fill =\"none\" />", souradniceXbodC, souradniceYbodC, souradniceXbodK, souradniceYbodK);
             sw.WriteLine("<path id=\"BlineCK\" d=\"M {0} {1} Q {2} {3} {4} {5}\" stroke=\"pink\" stroke-width=\"1\" fill =\"none\" />", souradniceXbodC, souradniceYbodC, souradniceXbodPomocneC, souradniceYbodC, souradniceXbodK, souradniceYbodK);
-            sw.WriteLine("<path id=\"QlineAJ\" d=\"M {0} {1} A 7 3 0 0 0 {2} {3}\" stroke=\"orange\" stroke-width=\"1\" fill =\"none\" />", pocatecniSouradniceX, souradniceYbodA, souradniceXbodJ, souradniceYbodJ);
+            //sw.WriteLine("<path id=\"QlineAJ\" d=\"M {0} {1} A 7 3 0 0 0 {2} {3}\" stroke=\"orange\" stroke-width=\"1\" fill =\"none\" />", pocatecniSouradniceX, souradniceYbodA, souradniceXbodJ, souradniceYbodJ);
             sw.WriteLine("<path id=\"BlineAJ\" d=\"M {0} {1} Q {2} {3} {4} {5}\" stroke=\"pink\" stroke-width=\"1\" fill =\"none\" />", pocatecniSouradniceX, souradniceYbodA, souradniceXbodPomocneJ, souradniceYbodPomocneJ, souradniceXbodJ, souradniceYbodJ);
             sw.WriteLine("<path id=\"zasevekL1ML2\" d=\"M {0} {1} L {2} {3} L {4} {5}\" stroke=\"black\" stroke-width=\"1\" fill =\"none\" />", souradniceXbodL, souradniceYbodL1, souradniceXbodM, souradniceYbodM, souradniceXbodL, souradniceYbodL2);
             sw.WriteLine("");
@@ -366,10 +370,9 @@ public class PatternDrawing : MonoBehaviour
             sw.WriteLine("</svg>");
             sw.Flush();
         }
-
-// stroke-dasharray=\"2 1\"
     }
-    void NakresliJednoduchyZasevek(Vector3 bod1, Vector3 vrchol, Vector3 bod2)
+
+void NakresliJednoduchyZasevek(Vector3 bod1, Vector3 vrchol, Vector3 bod2)
     {
         DrawLinearBezierCurve(bod1, vrchol);
         DrawLinearBezierCurve(vrchol, bod2);
@@ -429,16 +432,6 @@ public class PatternDrawing : MonoBehaviour
         return bezierPoint;
     }
 
-    /*void DrawLinearBezierCurve(Vector3 point1, Vector3 point2)
-    {
-        for (int i = 1; i < numberPoints + 1; i++)
-        {
-            float t = i / (float)numberPoints;
-            bezierPositions[i - 1] = CalculateLinearBezierPoint(t, point1, point2);
-        }
-        DrawLine(bezierPositions);
-    }*/
-
     void DrawLinearBezierCurve(Vector3 point1, Vector3 point2)
     {
         for (int i = 0; i < numberPoints ; i++)
@@ -454,6 +447,4 @@ public class PatternDrawing : MonoBehaviour
         Vector3 result = point1 + t * (point2 - point1);
         return result;
     }
-
-
 }

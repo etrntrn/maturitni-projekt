@@ -8,7 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Menu.unity
     guid: 7d00efc8a2fe7cf41b04c0eab70385e7
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Menu2.unity
     guid: 8c0bf7011ce87af4d9f95b74df36d1e5
   - enabled: 1
@@ -20,4 +20,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/InputErrorScene.unity
     guid: 448a7934d34f98a42b599ddbd4fbf3ec
+  - enabled: 1
+    path: Assets/Scenes/PatternName.unity
+    guid: d4b27af6ea38fe343b868deb4112aa92
+  - enabled: 1
+    path: Assets/Scenes/ChoosePattern.unity
+    guid: efe75bd8f92472249b66527fdffa11fb
   m_configObjects: {}

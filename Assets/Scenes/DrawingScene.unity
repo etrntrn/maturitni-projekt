@@ -729,6 +729,7 @@ MonoBehaviour:
   sirkaZad: 0
   sirkaRamene: 0
   delkaRukavu: 0
+  umisteni: 
 --- !u!1 &1432363203
 GameObject:
   m_ObjectHideFlags: 0

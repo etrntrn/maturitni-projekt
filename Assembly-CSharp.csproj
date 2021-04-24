@@ -64,7 +64,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\CreateDirectories.cs" />
+    <Compile Include="Assets\Scripts\CurrentName.cs" />
     <Compile Include="Assets\Scripts\DataTreatment.cs" />
+    <Compile Include="Assets\Scripts\PatternDatabase.cs" />
     <Compile Include="Assets\Scripts\PatternDrawing.cs" />
     <Compile Include="Assets\Scripts\SceneChanger.cs" />
     <Compile Include="Assets\Scripts\User.cs" />
@@ -669,8 +672,14 @@
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>C:/Users/evatr/Videos/Editor_Strihu/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.VectorGraphics">
+      <HintPath>C:/Users/evatr/Videos/Editor_Strihu/Library/ScriptAssemblies/Unity.VectorGraphics.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.2D.SpriteShape.Editor">
       <HintPath>C:/Users/evatr/Videos/Editor_Strihu/Library/ScriptAssemblies/Unity.2D.SpriteShape.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.InternalAPIEditorBridge.003">
+      <HintPath>C:/Users/evatr/Videos/Editor_Strihu/Library/ScriptAssemblies/Unity.InternalAPIEditorBridge.003.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/Users/evatr/Videos/Editor_Strihu/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
@@ -695,6 +704,9 @@
     </Reference>
     <Reference Include="Unity.Rider.Editor">
       <HintPath>C:/Users/evatr/Videos/Editor_Strihu/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.VectorGraphics.Editor">
+      <HintPath>C:/Users/evatr/Videos/Editor_Strihu/Library/ScriptAssemblies/Unity.VectorGraphics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Mathematics">
       <HintPath>C:/Users/evatr/Videos/Editor_Strihu/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
@@ -722,6 +734,9 @@
     </Reference>
     <Reference Include="Unity.2D.Animation.Editor">
       <HintPath>C:/Users/evatr/Videos/Editor_Strihu/Library/ScriptAssemblies/Unity.2D.Animation.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.InternalAPIEngineBridge.003">
+      <HintPath>C:/Users/evatr/Videos/Editor_Strihu/Library/ScriptAssemblies/Unity.InternalAPIEngineBridge.003.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Mathematics.Editor">
       <HintPath>C:/Users/evatr/Videos/Editor_Strihu/Library/ScriptAssemblies/Unity.Mathematics.Editor.dll</HintPath>

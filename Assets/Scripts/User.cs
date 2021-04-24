@@ -15,7 +15,8 @@ public class User : MonoBehaviour
     public int sirkaZad;
     public int sirkaRamene;
     public int delkaRukavu;
-
+    //public string name;
+    public string umisteni;
 
     public void AssignData(int[] field)
     {
@@ -46,15 +47,66 @@ public class User : MonoBehaviour
         return field;
     }
 
+    public string GetFileName() // VÝJIMKY
+    {
+        string s = "";
+        string pathAppDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Editor_strihu"); //try catch
+        string AppDataFile = Path.Combine(pathAppDataFolder, @"tmp_currentName.txt");
+        Debug.Log(AppDataFile);
+        string tmpFilePath = CompleteFilePath(false, "txt", "tmp_currentName");
+
+        using (StreamReader sr = new StreamReader(tmpFilePath))
+        {
+            s = sr.ReadLine();
+        }
+        if (s == null)
+        {
+            s = " ";
+            Debug.Log("jméno je prázdné");
+        }
+        return s;
+    }
+
+    public string CompleteFilePath(bool inDocuments, string fileType, string fileName)
+    {
+        string folderPath = "";
+        if (!inDocuments)
+        {
+            folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Editor_strihu");
+        }
+        else
+        {
+            folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Editor střihů");
+            Debug.Log("ještě to není hotové!!!");
+        }
+        switch (fileType)
+        {
+            case "csv":
+                {
+                    fileName += ".csv";
+                    break;
+                }
+            case "txt":
+                {
+                    fileName += ".txt";
+                    break;
+                }
+            case "svg":
+                {
+                    fileName += ".svg";
+                    break;
+                }
+        }
+        string completePath = Path.Combine(folderPath, fileName);
+        return completePath;
+    }
+
     public void SaveData()
     {
-        string umisteni = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Editor_strihu");
-        if (!Directory.Exists(umisteni))
-            Directory.CreateDirectory(umisteni);
-
+        string userMeasuresFile = CompleteFilePath(false, "csv", GetFileName());
         int[] field = DataToField();
-        //using (StreamWriter sw = new StreamWriter(Path.Combine(umisteni, @"user_tmp.csv"), false))
-        using (StreamWriter sw = new StreamWriter(@"user_tmp.csv", false))
+
+        using (StreamWriter sw = new StreamWriter(userMeasuresFile, false))
         {
             foreach (int i in field)
             {
@@ -76,8 +128,9 @@ public class User : MonoBehaviour
 
     public void ReadData()
     {
+        string path = CompleteFilePath(false, "csv", GetFileName()); 
         string s = "";
-        using (StreamReader sr = new StreamReader(@"user_tmp.csv"))
+        using (StreamReader sr = new StreamReader(path))
         {
             s = sr.ReadLine();
             //while ((s = sr.ReadLine())) != null) //bacha
