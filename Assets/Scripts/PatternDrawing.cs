@@ -224,17 +224,23 @@ public class PatternDrawing : MonoBehaviour
 
         int souradniceXbodStred = (int)Math.Round(souradniceXbodY + obvodHrudniku12 / 10 + 2);
         int souradniceYbodStred = souradniceYbodY + 1;
+        Vector3 bodStred = new Vector3(souradniceXbodStred, souradniceYbodY, 0);
         int souradniceXbodZ = souradniceXbodStred;
         int souradniceYbodZ = (int)Math.Round(souradniceYbodStred - (obvodHrudniku12 / 10 + 3.6f));
+        Vector3 bodZ = new Vector3(souradniceXbodZ, souradniceYbodZ, 0);
+        Vector3 bodPomocneYZ = new Vector3(souradniceXbodY, souradniceYbodZ, 0);
 
         int souradniceXbodV = souradniceXbodN;
         int souradniceYbodV = (int)Math.Round(souradniceYbodK - 2.4f);
+        Vector3 bodV = new Vector3(souradniceXbodV, souradniceYbodV, 0);
         int souradniceXbodHH = (int)Math.Round(souradniceXbodN + sprur / 3);
         int souradniceYbodHH = souradniceYbodN;
+        Vector3 bodHH = new Vector3(souradniceXbodHH, souradniceYbodHH, 0);
         int souradniceXbodPR = souradniceXbodHH;
         int souradniceYbodPR = (int)Math.Round(souradniceYbodHH + (3 * sprur) / 8);
-        int souradniceYbodW = souradniceYbodXXXX - 1; // -1
+        Vector3 bodPR = new Vector3(souradniceXbodPR, souradniceYbodPR, 0);
 
+        int souradniceYbodW = souradniceYbodXXXX - 1; // -1
         float VW = souradniceYbodW - souradniceYbodV;
         float srv3 = srv - 3;
         int souradniceXbodW;
@@ -243,7 +249,7 @@ public class PatternDrawing : MonoBehaviour
         else
             souradniceXbodW = (int)Math.Round(souradniceXbodV + Math.Sqrt((VW * VW) - (srv3 * srv3)));
         // odmocnina z (spur na druhou + V-W na druhou)
-
+        Vector3 bodW = new Vector3(souradniceXbodW, souradniceYbodW, 0);
         //--konec CV
 
         // přední část
@@ -268,9 +274,9 @@ public class PatternDrawing : MonoBehaviour
 
         //zadní část
         DrawLinearBezierCurve(bodN, bodO);
-        DrawLinearBezierCurve(bodO, bodR);
+        DrawLinearBezierCurve(bodZ, bodR);
 
-        Vector3[] stroke3 = { bodQ, bodT };
+        Vector3[] stroke3 = { bodQ, bodT };//
         DrawLine(stroke3);
 
         DrawLinearBezierCurve(bodR, bodS2);
@@ -280,6 +286,13 @@ public class PatternDrawing : MonoBehaviour
         DrawLinearBezierCurve(bodP, bodU);
         DrawLinearBezierCurve(bodT, bodU1);
         DrawLinearBezierCurve(bodU1, bodN);
+
+        DrawQuadraticBezierCurve(bodZ, bodPomocneYZ, bodY);
+        DrawLinearBezierCurve(bodY, bodXXX);
+        NakresliJednoduchyZasevek(bodXXX, bodNO, bodW);
+        DrawLinearBezierCurve(bodW, bodV);
+        DrawLinearBezierCurve(bodV, bodPR);
+        DrawQuadraticBezierCurve(bodPR, bodHH, bodN);
 
         NakresliDvojityZasevek(zasevekB1, zasevekB2, zasevekB3, zasevekB4);
 
