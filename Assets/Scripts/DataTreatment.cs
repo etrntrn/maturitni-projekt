@@ -43,7 +43,6 @@ public class DataTreatment : MonoBehaviour
         string path = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Editor_strihu"));
         string fileCSV = currentFileName + ".csv";
         string file = Path.Combine(path, fileCSV);
-        Debug.Log("file: " + file);
         string[] stringMeasures = new string[9];
         for (int i = 0; i < stringMeasures.Length; i++)
             stringMeasures[i]  = "0";
@@ -81,15 +80,6 @@ public class DataTreatment : MonoBehaviour
         user.sirkaZad = TestingManager(inSz);
         user.sirkaRamene = TestingManager(inSr);
         user.delkaRukavu = TestingManager(inDr);
-        Debug.Log(user.obvodPasu);
-        Debug.Log(user.vyskaPostavy);
-        Debug.Log(user.obvodHrudniku);
-        Debug.Log(user.obvodSedu);
-        Debug.Log(user.delkaZad);
-        Debug.Log(user.delkaOdevu);
-        Debug.Log(user.sirkaZad);
-        Debug.Log(user.sirkaRamene);
-        Debug.Log(user.delkaRukavu);
         
         if (user.obvodPasu <= 0 || user.vyskaPostavy <= 0 || user.obvodHrudniku <= 0 || user.obvodSedu <= 0 || user.delkaZad <= 0 || user.delkaOdevu <= 0 || user.sirkaZad <= 0 || user.sirkaRamene <= 0 || user.delkaRukavu <= 0)
         {
@@ -111,7 +101,6 @@ public class DataTreatment : MonoBehaviour
     {
         tmp = GetText(inpField);
         tmp2 = InputNumberTesting(tmp);
-        Debug.Log(tmp2);
         return tmp2;
     }
 

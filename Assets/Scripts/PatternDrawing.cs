@@ -62,16 +62,6 @@ public class PatternDrawing : MonoBehaviour
         sirkaRamene = user.sirkaRamene; //13;
         delkaRukavu = user.delkaRukavu; //60;
 
-        Debug.Log("Pattern drawing");
-        Debug.Log(user.obvodPasu);
-        Debug.Log(user.vyskaPostavy);
-        Debug.Log(user.obvodHrudniku);
-        Debug.Log(user.obvodSedu);
-        Debug.Log(user.delkaZad);
-        Debug.Log(user.delkaOdevu);
-        Debug.Log(user.sirkaZad);
-        Debug.Log(user.sirkaRamene);
-        Debug.Log(user.delkaRukavu);
 
         //CV
         float obvodHrudniku12 = obvodHrudnikuX / 2;
@@ -350,8 +340,10 @@ public class PatternDrawing : MonoBehaviour
         string pathSavePattern = user.CompleteFilePath(true, "svg", GetFileName(user));
         using (StreamWriter sw = new StreamWriter(pathSavePattern, false))
         {
-            sw.WriteLine("<svg height=\"400\" width=\"450\" xmlns=\"http://www.w3.org/2000/svg\">");
-            sw.WriteLine("<path id=\"lineDE\" d=\"M {0} {1} L {2} {3}\" stroke=\"grey\" stroke-width=\"1\" stroke-dasharray=\"1\" fill =\"none\" />", souradniceXbodX, souradniceYbodD, souradniceXbodE, souradniceYbodD);
+            sw.WriteLine("<svg height=\"{0}\" width=\"{1}\" xmlns=\"http://www.w3.org/2000/svg\">", vyskaPlatna * 38, sirkaPlatna * 38);
+            sw.WriteLine("<g transform =\"scale(37.77)\">");
+            sw.WriteLine("<rect x=\"5\" y=\"5\" width=\"10\" height=\"10\" stroke=\"grey\" fill =\"none\"/>");
+                       sw.WriteLine("<path id=\"lineDE\" d=\"M {0} {1} L {2} {3}\" stroke=\"grey\" stroke-width=\"1\" stroke-dasharray=\"1\" fill =\"none\" />", souradniceXbodX, souradniceYbodD, souradniceXbodE, souradniceYbodD);
             sw.WriteLine("<path id=\"lineBC\" d=\"M {0} {1} L {2} {3}\" stroke=\"grey\" stroke-width=\"1\" stroke-dasharray=\"1\"  fill =\"none\" />", souradniceXbodB, souradniceYbodC, souradniceXbodC, souradniceYbodC);
             sw.WriteLine("<path id=\"lineFG\" d=\"M {0} {1} L {2} {3}\" stroke=\"grey\" stroke-width=\"1\" stroke-dasharray=\"1\"  fill =\"none\" />", souradniceXbodX, souradniceYbodF, souradniceXbodG, souradniceYbodF);
             sw.WriteLine("<path id=\"lineCEGI\" d=\"M {0} {1} L {2} {3} L {4} {5} L {6} {7}\" stroke=\"black\" stroke-width=\"1\" fill =\"none\" />", souradniceXbodC, souradniceYbodC, souradniceXbodE, souradniceYbodD, souradniceXbodG, souradniceYbodF, souradniceXbodI, souradniceYbodI);
@@ -380,6 +372,7 @@ public class PatternDrawing : MonoBehaviour
             sw.WriteLine("<path id=\"BlineNbodPR\" d=\"M {0} {1} Q {2} {3} {4} {5}\" stroke=\"pink\" stroke-width=\"1\" fill =\"none\" />", souradniceXbodN, souradniceYbodN, souradniceXbodHH, souradniceYbodHH, souradniceXbodPR, souradniceYbodPR);
             //sw.WriteLine("<path id=\"BlinebodPRbodV\" d=\"M {0} {1} Q {2} {3} {4} {5}\" stroke=\"pink\" stroke-width=\"1\" fill =\"none\" />", souradniceXbodPR, souradniceYbodPR, souradniceXbodPR, souradniceYbodV, souradniceXbodV, souradniceYbodV);
             sw.WriteLine("<path id=\"linebodPRbodV\" d=\"M {0} {1} L {2} {3}\" stroke=\"pink\" stroke-width=\"1\" fill =\"none\" />", souradniceXbodPR, souradniceYbodPR, souradniceXbodV, souradniceYbodV);
+            sw.WriteLine("</g>");
             sw.WriteLine("</svg>");
             sw.Flush();
         }

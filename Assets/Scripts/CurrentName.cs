@@ -33,19 +33,12 @@ public class CurrentName : MonoBehaviour
     {
         patDat = new PatternDatabase();
         currentPatternName = inpField.text;
-        Debug.Log("currentname");
-        Debug.Log(currentPatternName);
         bool nameTaken = NameExists(currentPatternName);
-        Debug.Log("nameTaken");
-        Debug.Log(nameTaken);
         bool isSuitableName = currentPatternName.All(Char.IsLetterOrDigit) && (currentPatternName.Length > 5) && (currentPatternName.Length < 41);
-        Debug.Log("isSuitableName");
-        Debug.Log(isSuitableName);
         switch (isSuitableName)
         {
             case false :
                 {
-                    Debug.Log("case1");
                     inpField.text = "";
                     errorText.gameObject.SetActive(true);
                     break;
@@ -56,14 +49,12 @@ public class CurrentName : MonoBehaviour
                     {
                         case true:
                             {
-                                Debug.Log("case2");
                                 inpField.text = "";
                                 errorText2.gameObject.SetActive(true);
                                 break;
                             }
                         case false:
                             {
-                                Debug.Log("case3");
                                 errorText.gameObject.SetActive(false);
                                 errorText2.gameObject.SetActive(false);
 

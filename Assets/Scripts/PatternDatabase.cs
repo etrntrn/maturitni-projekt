@@ -56,12 +56,10 @@ public class PatternDatabase : MonoBehaviour
     public void MoveScene() //zjišťuje, zda soubor je soubor s daným názvem opravdu k dipozici
     {
         string option = PatternNames[dropdown.value];
-        Debug.Log("vybraná možnost: " + PatternNames[dropdown.value]);
         CurrentName patternName = new CurrentName();
         string path = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Editor_strihu"));
         string optionCSV = option + ".csv";
         string file = Path.Combine(path, optionCSV);
-        Debug.Log("file: " + file);
         if (File.Exists(file))
         {
             error.gameObject.SetActive(false);
@@ -81,7 +79,6 @@ public class PatternDatabase : MonoBehaviour
         PatternNames.RemoveAt(patIndex);
         string[] array = PatternNames.ToArray();
         user = new User();
-        //user = gameObject.AddComponent<User>();
         using (StreamWriter sw = new StreamWriter(user.CompleteFilePath(false, "csv", "pattern_database"), false))
         {
             foreach (string name in array)
@@ -127,7 +124,6 @@ public class PatternDatabase : MonoBehaviour
         user = new User();
         databaseFileName = "pattern_database";
         pathPatternNamesList = user.CompleteFilePath(false, "csv", databaseFileName);
-        Debug.Log(pathPatternNamesList);
 
         PatternNames = PatternNamesToList();
         if (PatternNames.Count == 0)

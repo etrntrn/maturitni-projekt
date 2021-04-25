@@ -67,6 +67,7 @@
     <Compile Include="Assets\Scripts\CreateDirectories.cs" />
     <Compile Include="Assets\Scripts\CurrentName.cs" />
     <Compile Include="Assets\Scripts\DataTreatment.cs" />
+    <Compile Include="Assets\Scripts\ExitApp.cs" />
     <Compile Include="Assets\Scripts\PatternDatabase.cs" />
     <Compile Include="Assets\Scripts\PatternDrawing.cs" />
     <Compile Include="Assets\Scripts\SceneChanger.cs" />
