@@ -26,6 +26,16 @@ public class CreateDirectories : MonoBehaviour
                 ErrorOn(true);
             }
         }
+        string database = Path.Combine(pathAppData, "pattern_database.csv");
+        if(!File.Exists(database))
+            try
+            {
+                File.Create(database);
+            }
+            catch
+            {
+                ErrorOn(true);
+            }
 
         string pathMyDocuments = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Editor střihů");
         if (!Directory.Exists(pathMyDocuments))

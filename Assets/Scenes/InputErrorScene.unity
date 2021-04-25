@@ -454,9 +454,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 901597711}
-        m_MethodName: ZkusitZnovuButton
-        m_Mode: 1
+      - m_Target: {fileID: 2022596928}
+        m_MethodName: buttonChangeScene
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -502,71 +502,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 879041436}
   m_CullTransparentMesh: 0
---- !u!1 &901597710
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 901597712}
-  - component: {fileID: 901597711}
-  m_Layer: 0
-  m_Name: SceneChangerError
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &901597711
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 901597710}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a6a1ca1c571c7c459404ecbc88fb5bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  obvodPasu: 0
-  vyskaPostavy: 0
-  obvodHrudniku: 0
-  obvodSedu: 0
-  delkaZad: 0
-  delkaOdevu: 0
-  sirkaZad: 0
-  sirkaRamene: 0
-  delkaRukavu: 0
-  measures: 
-  inOp: {fileID: 0}
-  inVp: {fileID: 0}
-  inOh: {fileID: 0}
-  inOs: {fileID: 0}
-  inDz: {fileID: 0}
-  inDo: {fileID: 0}
-  inSz: {fileID: 0}
-  inSr: {fileID: 0}
-  inDr: {fileID: 0}
-  tmp: 
-  tmp2: 0
-  textFromInput: 
---- !u!4 &901597712
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 901597710}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 317.04044, y: 182.19067, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1436863934
 GameObject:
   m_ObjectHideFlags: 0
@@ -774,6 +709,49 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1897045333}
   m_CullTransparentMesh: 0
+--- !u!1 &2022596927
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2022596929}
+  - component: {fileID: 2022596928}
+  m_Layer: 0
+  m_Name: SceneChanger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2022596928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2022596927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c81216b5ea2ee34ea8d5db59cf165e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &2022596929
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2022596927}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 383.54706, y: 225.44397, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2062136047
 GameObject:
   m_ObjectHideFlags: 0

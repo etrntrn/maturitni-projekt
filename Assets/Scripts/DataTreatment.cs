@@ -91,11 +91,6 @@ public class DataTreatment : MonoBehaviour
             SceneManager.LoadScene("DrawingScene");
         }
     }
-
-    public void ZkusitZnovuButton()
-    {
-        SceneManager.LoadScene("Measures");
-    }
     
     public int TestingManager(TMP_InputField inpField)
     {
