@@ -15,7 +15,6 @@ public class User : MonoBehaviour
     public int sirkaZad;
     public int sirkaRamene;
     public int delkaRukavu;
-    //public string name;
     public string umisteni;
 
     public void AssignData(int[] field)
@@ -77,7 +76,6 @@ public class User : MonoBehaviour
         else
         {
             folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Editor střihů");
-            Debug.Log("ještě to není hotové!!!");
         }
         switch (fileType)
         {

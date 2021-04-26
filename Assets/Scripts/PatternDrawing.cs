@@ -10,7 +10,7 @@ public class PatternDrawing : MonoBehaviour
 {
     // Údaje od uživatele + pomocné míry
 
-    private LineRenderer line;
+   // private LineRenderer line;
     static int vyskaPostavy; //168;
     static int obvodHrudnikuX; //96;
 
@@ -45,12 +45,8 @@ public class PatternDrawing : MonoBehaviour
         return s;
     }
 
-    void Start()
+    void UserToLocal(User user)
     {
-        //user = FindObjectOfType<User>();
-        //User user = gameObject.AddComponent<User>();
-        //user = User.GetData(DataTreatment.NoteUserMeasures().field);
-        User user = new User();
         user.ReadData();
         vyskaPostavy = user.vyskaPostavy; //168;
         obvodHrudnikuX = user.obvodHrudniku; //96;
@@ -61,9 +57,10 @@ public class PatternDrawing : MonoBehaviour
         sirkaZadX = user.sirkaZad; //35;
         sirkaRamene = user.sirkaRamene; //13;
         delkaRukavu = user.delkaRukavu; //60;
+    }
 
-
-        //CV
+    public Vector3[] Calculation(User user)
+    {
         float obvodHrudniku12 = obvodHrudnikuX / 2;
         float obvodPasu12 = obvodPasuX / 2;
         float obvodSedu12 = obvodSeduX / 2;
@@ -77,12 +74,13 @@ public class PatternDrawing : MonoBehaviour
         float sprur = (obvodHrudniku12 / 4) + 0.5f;
         float prs = (obvodHrudniku12 / 2) - 4 + 1.5f;
 
-        //Výpočty zadní část
         int pocatecniSouradniceX = 10;
         int pocatecniSouradniceY = 10;
+        Vector3 pocatecniSouradnice = new Vector3(pocatecniSouradniceX, pocatecniSouradniceY, 0);
 
         int vyskaPlatna = delkaOdevu + 22 + pocatecniSouradniceY;
         int sirkaPlatna = (int)System.Math.Round(obvodPasu12 * 3 + pocatecniSouradniceX);
+        Vector3 rozmeryPlatna = new Vector3(sirkaPlatna, vyskaPlatna, 0);
 
         int souradniceXbodX = pocatecniSouradniceX + 2;
         Vector3 bodX = new Vector3(pocatecniSouradniceX + 2, pocatecniSouradniceY, 0);
@@ -100,12 +98,12 @@ public class PatternDrawing : MonoBehaviour
         int souradniceXbodE = souradniceXbodC - 1;
         Vector3 bodE = new Vector3(souradniceXbodE, souradniceYbodD, 0);
 
-        float souradniceYbodF = souradniceYbodD - 20;
+        int souradniceYbodF = souradniceYbodD - 20;
         Vector3 bodF = new Vector3(souradniceXbodX, souradniceYbodF, 0);
         int souradniceXbodG = (int)System.Math.Round(pocatecniSouradniceX + obvodSedu12 / 2 + 1.7f);
         Vector3 bodG = new Vector3(souradniceXbodG, souradniceYbodF, 0);
 
-        float souradniceXbodH = ((souradniceXbodG - pocatecniSouradniceX) / 3 * 2) + 20;
+        int souradniceXbodH = ((souradniceXbodG - pocatecniSouradniceX) / 3 * 2) + 20;
         Vector3 bodH = new Vector3(souradniceXbodH, pocatecniSouradniceY, 0);
         int souradniceXbodI = souradniceXbodG + 2;
         //static int souradniceYbodI = (int)System.Math.Round(pocatecniSouradniceY + 0.5f);
@@ -230,161 +228,186 @@ public class PatternDrawing : MonoBehaviour
         int souradniceYbodPR = (int)Math.Round(souradniceYbodHH + (3 * sprur) / 8);
         Vector3 bodPR = new Vector3(souradniceXbodPR, souradniceYbodPR, 0);
 
+        Vector3 pomocneV = new Vector3(souradniceXbodPR, souradniceYbodV, 0);
+
         int souradniceYbodW = souradniceYbodXXXX - 1; // -1
         float VW = souradniceYbodW - souradniceYbodV;
         float srv3 = srv - 3;
         int souradniceXbodW;
         if ((srv3 * srv3) >= (VW * VW))
-        souradniceXbodW = (int)Math.Round(souradniceXbodV + Math.Sqrt((srv3 * srv3) - (VW * VW)));
+            souradniceXbodW = (int)Math.Round(souradniceXbodV + Math.Sqrt((srv3 * srv3) - (VW * VW)));
         else
             souradniceXbodW = (int)Math.Round(souradniceXbodV + Math.Sqrt((VW * VW) - (srv3 * srv3)));
         // odmocnina z (spur na druhou + V-W na druhou)
         Vector3 bodW = new Vector3(souradniceXbodW, souradniceYbodW, 0);
-        //--konec CV
 
-        // přední část
+        Vector3[] vectors = new Vector3[] {
+            bodA, bodB, bodC, bodD, bodE, bodF, bodG, bodH, bodI, bodK, 
+            pomocneC, bodJ, pomocneJ, bodM, bodL, bodL1, bodL2, zasevekA1, zasevekA2, zasevekA3, zasevekA4,
+        bodN, bodO, bodR, bodQ, bodT, bodS, bodS2, bodS3, bodU, bodU1, bodP, bodU2, zasevekB1, zasevekB2, zasevekB3, zasevekB4,
+        bodNO, bodXXX, bodY, bodStred, bodZ, bodPomocneYZ, bodV, bodHH, bodPR, bodW, bodX, pomocneV,
+        pocatecniSouradnice, rozmeryPlatna
+        };
+        return vectors;
+    }
 
-        DrawLinearBezierCurve(bodA, bodD);
-        DrawLinearBezierCurve(bodD, bodX);
-        DrawLinearBezierCurve(bodB, bodC);
-        DrawLinearBezierCurve(bodD, bodE);
-        DrawLinearBezierCurve(bodF, bodG);
-        Vector3[] stroke = { bodC, bodE, bodG, bodI };
+    public void VectorDrawing(Vector3[] vectors)
+    {
+        //Zadní část
+        DrawLinearBezierCurve(vectors[0], vectors[3]); 
+        DrawLinearBezierCurve(vectors[3], vectors[47]);
+        DrawLinearBezierCurve(vectors[1], vectors[2]);
+        DrawLinearBezierCurve(vectors[3], vectors[4]);
+        DrawLinearBezierCurve(vectors[5], vectors[6]);
+
+        Vector3[] stroke = { vectors[2], vectors[4], vectors[6], vectors[8] };
         DrawLine(stroke);
-        Vector3[] stroke2 = { bodX, bodH, bodI };
+        Vector3[] stroke2 = { vectors[47], vectors[7], vectors[8] };
         DrawLine(stroke2);
 
-        DrawQuadraticBezierCurve(bodC, pomocneC, bodK);
-        DrawLinearBezierCurve(bodJ, bodK);
-        DrawQuadraticBezierCurve(bodA, pomocneJ, bodJ);
+        DrawQuadraticBezierCurve(vectors[2], vectors[10], vectors[9]);
+        DrawLinearBezierCurve(vectors[11], vectors[9]);
+        DrawQuadraticBezierCurve(vectors[0], vectors[12], vectors[11]);
 
-        NakresliDvojityZasevek(zasevekA1, zasevekA2, zasevekA3, zasevekA4);
-        DrawLinearBezierCurve(bodM, bodL); //test
-        NakresliJednoduchyZasevek(bodL1, bodM, bodL2);
+        DoubleDart(vectors[17], vectors[18], vectors[19], vectors[20]);
+        DrawLinearBezierCurve(vectors[13], vectors[14]); //test?
+        SimpleDart(vectors[15], vectors[13], vectors[16]);
 
-        //zadní část
-        DrawLinearBezierCurve(bodN, bodO);
-        DrawLinearBezierCurve(bodZ, bodR);
+        //Přední část
+        DrawLinearBezierCurve(vectors[21], vectors[22]);
+        DrawLinearBezierCurve(vectors[41], vectors[23]);
 
-        Vector3[] stroke3 = { bodQ, bodT };//
+        Vector3[] stroke3 = { vectors[24], vectors[25] };//
         DrawLine(stroke3);
 
-        DrawLinearBezierCurve(bodR, bodS2);
-        DrawLinearBezierCurve(bodS2, bodS);
-        DrawLinearBezierCurve(bodS, bodT);
+        DrawLinearBezierCurve(vectors[23], vectors[27]);
+        DrawLinearBezierCurve(vectors[27], vectors[26]);
+        DrawLinearBezierCurve(vectors[26], vectors[25]);
 
-        DrawLinearBezierCurve(bodP, bodU);
-        DrawLinearBezierCurve(bodT, bodU1);
-        DrawLinearBezierCurve(bodU1, bodN);
+        DrawLinearBezierCurve(vectors[31], vectors[29]);
+        DrawLinearBezierCurve(vectors[25], vectors[30]);
+        DrawLinearBezierCurve(vectors[30], vectors[21]);
 
-        DrawQuadraticBezierCurve(bodZ, bodPomocneYZ, bodY);
-        DrawLinearBezierCurve(bodY, bodXXX);
-        NakresliJednoduchyZasevek(bodXXX, bodNO, bodW);
-        DrawLinearBezierCurve(bodW, bodV);
-        DrawLinearBezierCurve(bodV, bodPR);
-        DrawQuadraticBezierCurve(bodPR, bodHH, bodN);
+        DrawQuadraticBezierCurve(vectors[41], vectors[42], vectors[39]);
+        DrawLinearBezierCurve(vectors[39], vectors[38]);
+        SimpleDart(vectors[38], vectors[37], vectors[46]);
+        DrawLinearBezierCurve(vectors[46], vectors[43]);
+        DrawLinearBezierCurve(vectors[43], vectors[45]);
+        DrawQuadraticBezierCurve(vectors[45], vectors[44], vectors[21]);
 
-        NakresliDvojityZasevek(zasevekB1, zasevekB2, zasevekB3, zasevekB4);
+        DoubleDart(vectors[33], vectors[34], vectors[35], vectors[36]);
+    }
 
-        //zápis
+    public int[] changeValueY(Vector3[] vectors)
+    {
+        int maxIndex = vectors.Length - 1;
+        int[] vectorsY = new int[vectors.Length];
+        for (int i = 0; i < maxIndex; i++)
+        {
+            vectorsY[i] = (int)System.Math.Round(vectors[maxIndex].y - vectors[i].y);
+        }
+        vectorsY[maxIndex] = (int)System.Math.Round(vectors[maxIndex].y);
+        return vectorsY;
+    }
 
-        string umisteni = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Editor_strihu");
-        if (!Directory.Exists(umisteni))
-            Directory.CreateDirectory(umisteni);
+    public int[] SplitX (Vector3[] vectors)
+    {
+        int maxIndex = vectors.Length - 1;
+        int[] vectorsX = new int[vectors.Length];
+        for (int i = 0; i <= maxIndex; i++)
+        {
+            vectorsX[i] = (int)System.Math.Round(vectors[i].x);
+        }
+        return vectorsX;
+    }
 
-        souradniceYbodD = vyskaPlatna - souradniceYbodD;
-        souradniceYbodF = vyskaPlatna - souradniceYbodF;
-        souradniceYbodA = vyskaPlatna - souradniceYbodA;
-        souradniceYbodC = vyskaPlatna - souradniceYbodC;
-        souradniceYbodI = vyskaPlatna - souradniceYbodI;
-        pocatecniSouradniceY = vyskaPlatna - pocatecniSouradniceY;
-        souradniceYbodJ = vyskaPlatna - souradniceYbodJ;
-        souradniceYbodK = vyskaPlatna - souradniceYbodK;
-        souradniceYbodPomocneJ = vyskaPlatna - souradniceYbodPomocneJ;
+    void Start()
+    {
+        //user = FindObjectOfType<User>(); //User user = gameObject.AddComponent<User>();//user = User.GetData(DataTreatment.NoteUserMeasures().field);
+        User user = new User();
+        UserToLocal(user);
+        Vector3[] vectors = Calculation(user);
+        VectorDrawing(vectors);
+        CreateSVGPattern(vectors);
+        
+    }
+    void SVGLine2(StreamWriter sw, int[] vectorsX, int[] vectorsY, int num1, int num2, string colour, int dasharray, string name)
+    {
+        string line = "<path id=\"{6}\" d=\"M {0} {1} L {2} {3}\" stroke=\"{4}\" stroke-width=\"1\" stroke-dasharray=\"{5}\"  fill =\"none\" />";
+        sw.WriteLine(line, vectorsX[num1], vectorsY[num1], vectorsX[num2], vectorsY[num2], colour, dasharray, name);
+    }
+    void SVGLine3(StreamWriter sw, int[] vectorsX, int[] vectorsY, int num1, int num2, int num3, string colour, int dasharray, string name)
+    {
+        string line = "<path id=\"{8}\" d=\"M {0} {1} L {2} {3} L {4} {5}\" stroke=\"{6}\" stroke-width=\"1\" stroke-dasharray=\"{7}\"  fill =\"none\" />";
+        sw.WriteLine(line, vectorsX[num1], vectorsY[num1], vectorsX[num2], vectorsY[num2], vectorsX[num3], vectorsY[num3], colour, dasharray, name);
+    }
+    void SVGLine4(StreamWriter sw, int[] vectorsX, int[] vectorsY, int num1, int num2, int num3, int num4, string colour, int dasharray, string name)
+    {
+        string line = "<path id=\"{10}\" d=\"M {0} {1} L {2} {3} L {4} {5} L {6} {7}\" stroke=\"{8}\" stroke-width=\"1\" stroke-dasharray=\"{9}\"  fill =\"none\" />";
+        sw.WriteLine(line, vectorsX[num1], vectorsY[num1], vectorsX[num2], vectorsY[num2], vectorsX[num3], vectorsY[num3], vectorsX[num4], vectorsY[num4], colour, dasharray, name);
+    }
+    void SVGDart2(StreamWriter sw, int[] vectorsX, int[] vectorsY, int num1, int num2, int num3, int num4, string colour, int dasharray, string name)
+    {
+        string line = "<path id=\"{10}\" d=\"M {0} {1} L {2} {3} L {4} {5} L {6} {7} L {0} {1}\" stroke=\"{8}\" stroke-width=\"1\" stroke-dasharray=\"{9}\"  fill =\"none\" />";
+        sw.WriteLine(line, vectorsX[num1], vectorsY[num1], vectorsX[num2], vectorsY[num2], vectorsX[num3], vectorsY[num3], vectorsX[num4], vectorsY[num4], colour, dasharray, name);
+    }
+    void SVGLineB(StreamWriter sw, int[] vectorsX, int[] vectorsY, int num1, int num2, int num3, int dasharray, string name)
+    {
+        string line = "<path id=\"{8}\" d=\"M {0} {1} Q {2} {3} {4} {5}\" stroke=\"{6}\" stroke-width=\"1\" stroke-dasharray=\"{7}\"  fill =\"none\" />";
+        sw.WriteLine(line, vectorsX[num1], vectorsY[num1], vectorsX[num2], vectorsY[num2], vectorsX[num3], vectorsY[num3], "blue", dasharray, name);
+    }
+    void  CreateSVGPattern(Vector3[] vectors)
+    {
+        int[] vectorsX = SplitX(vectors);
+        int[] vectorsY = changeValueY(vectors);
 
-        souradniceYbodL1 = vyskaPlatna - souradniceYbodL1;
-        souradniceYbodL2 = vyskaPlatna - souradniceYbodL2;
-        souradniceYbodM = vyskaPlatna - souradniceYbodM;
-
-        souradniceYzasevekA1 = vyskaPlatna - souradniceYzasevekA1;
-        souradniceYzasevekA2 = vyskaPlatna - souradniceYzasevekA2;
-        souradniceYzasevekA3 = vyskaPlatna - souradniceYzasevekA3;
-        souradniceYzasevekA4 = vyskaPlatna - souradniceYzasevekA4;
-      
-        souradniceYbodN = vyskaPlatna - souradniceYbodN;
-        souradniceYbodO = vyskaPlatna - souradniceYbodO;
-        souradniceYbodR = vyskaPlatna - souradniceYbodR;
-        souradniceYbodS = vyskaPlatna - souradniceYbodS;
-        souradniceYbodS2 = vyskaPlatna - souradniceYbodS2;
-        souradniceYbodT = vyskaPlatna - souradniceYbodT;
-        souradniceYbodQ = vyskaPlatna - souradniceYbodQ;
-        souradniceYbodP = vyskaPlatna - souradniceYbodP;
-        souradniceYbodU = vyskaPlatna - souradniceYbodU;
-        souradniceYbodU1 = vyskaPlatna - souradniceYbodU1;
-
-        souradniceYbodNO = vyskaPlatna - souradniceYbodNO;
-        souradniceYbodXXXX = vyskaPlatna - souradniceYbodXXXX;
-        souradniceYbodY = vyskaPlatna - souradniceYbodY;
-        souradniceYbodZ = vyskaPlatna - souradniceYbodZ;
-        souradniceYbodStred = vyskaPlatna - souradniceYbodStred;
-        souradniceYbodW = vyskaPlatna - souradniceYbodW;
-        souradniceYbodV = vyskaPlatna - souradniceYbodV;
-        souradniceYbodHH = vyskaPlatna - souradniceYbodHH;
-        souradniceYbodPR = vyskaPlatna - souradniceYbodPR;
-
-        souradniceYzasevekB1 = vyskaPlatna - souradniceYzasevekB1;
-        souradniceYzasevekB2 = vyskaPlatna - souradniceYzasevekB2;
-        souradniceYzasevekB3 = vyskaPlatna - souradniceYzasevekB3;
-        souradniceYzasevekB4 = vyskaPlatna - souradniceYzasevekB4;
-
+        User user = new User();
         string pathSavePattern = user.CompleteFilePath(true, "svg", GetFileName(user));
         using (StreamWriter sw = new StreamWriter(pathSavePattern, false))
         {
-            sw.WriteLine("<svg height=\"{0}\" width=\"{1}\" xmlns=\"http://www.w3.org/2000/svg\">", vyskaPlatna * 38, sirkaPlatna * 38);
+            sw.WriteLine("<svg height=\"{0}\" width=\"{1}\" xmlns=\"http://www.w3.org/2000/svg\">", vectorsY[50] * 38, vectorsX[50] * 38); 
             sw.WriteLine("<g transform =\"scale(37.77)\">");
-            sw.WriteLine("<rect x=\"5\" y=\"5\" width=\"10\" height=\"10\" stroke=\"grey\" fill =\"none\"/>");
-                       sw.WriteLine("<path id=\"lineDE\" d=\"M {0} {1} L {2} {3}\" stroke=\"grey\" stroke-width=\"1\" stroke-dasharray=\"1\" fill =\"none\" />", souradniceXbodX, souradniceYbodD, souradniceXbodE, souradniceYbodD);
-            sw.WriteLine("<path id=\"lineBC\" d=\"M {0} {1} L {2} {3}\" stroke=\"grey\" stroke-width=\"1\" stroke-dasharray=\"1\"  fill =\"none\" />", souradniceXbodB, souradniceYbodC, souradniceXbodC, souradniceYbodC);
-            sw.WriteLine("<path id=\"lineFG\" d=\"M {0} {1} L {2} {3}\" stroke=\"grey\" stroke-width=\"1\" stroke-dasharray=\"1\"  fill =\"none\" />", souradniceXbodX, souradniceYbodF, souradniceXbodG, souradniceYbodF);
-            sw.WriteLine("<path id=\"lineCEGI\" d=\"M {0} {1} L {2} {3} L {4} {5} L {6} {7}\" stroke=\"black\" stroke-width=\"1\" fill =\"none\" />", souradniceXbodC, souradniceYbodC, souradniceXbodE, souradniceYbodD, souradniceXbodG, souradniceYbodF, souradniceXbodI, souradniceYbodI);
-            sw.WriteLine("<path id=\"lineXDA\" d=\"M {0} {1} L {2} {3} L {4} {5} \" stroke=\"black\" stroke-width=\"1\" fill =\"none\" />", souradniceXbodX, pocatecniSouradniceY, souradniceXbodX, souradniceYbodD, pocatecniSouradniceX, souradniceYbodA); //???
-            sw.WriteLine("<path id=\"lineXHI\" d=\"M {0} {1} L {2} {3} L {4} {5}\" stroke=\"black\" stroke-width=\"1\" fill =\"none\" />", souradniceXbodX, pocatecniSouradniceY, souradniceXbodH, pocatecniSouradniceY, souradniceXbodI, souradniceYbodI);
-            sw.WriteLine("<path id=\"lineJK\" d=\"M {0} {1} L {2} {3}\" stroke=\"black\" stroke-width=\"1\" fill =\"none\" />", souradniceXbodJ, souradniceYbodJ, souradniceXbodK, souradniceYbodK);
-            sw.WriteLine("<path id=\"zasevekA\" d=\"M {0} {1} L {2} {3} L {4} {5} L {6} {7} L {0} {1}\" stroke=\"black\" stroke-width=\"1\" fill =\"none\" />", souradniceXzasevekA1, souradniceYzasevekA1, souradniceXzasevekA3, souradniceYzasevekA3, souradniceXzasevekA2, souradniceYzasevekA2, souradniceXzasevekA4, souradniceYzasevekA4);
-            //sw.WriteLine("<path id=\"QlineCK\" d=\"M {0} {1} A 7 13 0 0 1 {2} {3}\" stroke=\"orange\" stroke-width=\"1\" fill =\"none\" />", souradniceXbodC, souradniceYbodC, souradniceXbodK, souradniceYbodK);
-            sw.WriteLine("<path id=\"BlineCK\" d=\"M {0} {1} Q {2} {3} {4} {5}\" stroke=\"pink\" stroke-width=\"1\" fill =\"none\" />", souradniceXbodC, souradniceYbodC, souradniceXbodPomocneC, souradniceYbodC, souradniceXbodK, souradniceYbodK);
-            //sw.WriteLine("<path id=\"QlineAJ\" d=\"M {0} {1} A 7 3 0 0 0 {2} {3}\" stroke=\"orange\" stroke-width=\"1\" fill =\"none\" />", pocatecniSouradniceX, souradniceYbodA, souradniceXbodJ, souradniceYbodJ);
-            sw.WriteLine("<path id=\"BlineAJ\" d=\"M {0} {1} Q {2} {3} {4} {5}\" stroke=\"pink\" stroke-width=\"1\" fill =\"none\" />", pocatecniSouradniceX, souradniceYbodA, souradniceXbodPomocneJ, souradniceYbodPomocneJ, souradniceXbodJ, souradniceYbodJ);
-            sw.WriteLine("<path id=\"zasevekL1ML2\" d=\"M {0} {1} L {2} {3} L {4} {5}\" stroke=\"black\" stroke-width=\"1\" fill =\"none\" />", souradniceXbodL, souradniceYbodL1, souradniceXbodM, souradniceYbodM, souradniceXbodL, souradniceYbodL2);
-            sw.WriteLine("");
-            sw.WriteLine("<path id=\"lineNO\" d=\"M {0} {1} L {2} {3}\" stroke=\"grey\" stroke-width=\"1\" stroke-dasharray=\"1\"  fill =\"none\" />", souradniceXbodN, souradniceYbodN, souradniceXbodO, souradniceYbodO);
-            sw.WriteLine("<path id=\"linePU\" d=\"M {0} {1} L {2} {3}\" stroke=\"grey\" stroke-width=\"1\" stroke-dasharray=\"1\"  fill =\"none\" />", souradniceXbodP, souradniceYbodP, souradniceXbodU, souradniceYbodU);
-            sw.WriteLine("<path id=\"lineTQ\" d=\"M {0} {1} L {2} {3}\" stroke=\"grey\" stroke-width=\"1\" stroke-dasharray=\"1\"  fill =\"none\" />", souradniceXbodT, souradniceYbodT, souradniceXbodQ, souradniceYbodQ);
-            sw.WriteLine("<path id =\"lineZRS2ST\" d=\"M {0} {1} L {2} {3} L {4} {5} L {6} {7} L {8} {9}\" stroke=\"black\" stroke-width=\"1\" fill =\"none\" />", souradniceXbodZ, souradniceYbodZ, souradniceXbodR, souradniceYbodR, souradniceXbodS2, souradniceYbodS2, souradniceXbodS, souradniceYbodS, souradniceXbodT, souradniceYbodT);
-            sw.WriteLine("<path id=\"lineTU1N\" d=\"M {0} {1} L {2} {3} L {4} {5}\" stroke=\"black\" stroke-width=\"1\" fill =\"none\" />", souradniceXbodT, souradniceYbodT, souradniceXbodU1, souradniceYbodU1, souradniceXbodN, souradniceYbodN);
-            sw.WriteLine("<path id=\"zasevekA\" d=\"M {0} {1} L {2} {3} L {4} {5} L {6} {7} L {0} {1}\" stroke=\"black\" stroke-width=\"1\" fill =\"none\" />", souradniceXzasevekB1, souradniceYzasevekB1, souradniceXzasevekB3, souradniceYzasevekB3, souradniceXzasevekB2, souradniceYzasevekB2, souradniceXzasevekB4, souradniceYzasevekB4);
+            sw.WriteLine("<rect x=\"5\" y=\"5\" width=\"10\" height=\"10\" stroke=\"grey\" fill =\"none\"/>"); //čtverec 10x10
 
-            //
-            sw.WriteLine("<path id=\"linebodWbodNObodXXX\" d=\"M {0} {1} L {2} {3} L {4} {5}\" stroke=\"black\" stroke-width=\"1\" fill =\"none\" />", souradniceXbodW, souradniceYbodW, souradniceXbodNO, souradniceYbodNO, souradniceXbodXXXX, souradniceYbodXXXX);
-            sw.WriteLine("<path id=\"linebodXXXbodY\" d=\"M {0} {1} L {2} {3}\" stroke=\"grey\" stroke-width=\"1\"  fill =\"none\" />", souradniceXbodY, souradniceYbodY, souradniceXbodXXXX, souradniceYbodXXXX);
-            sw.WriteLine("<path id=\"BlineYZ\" d=\"M {0} {1} Q {2} {3} {4} {5}\" stroke=\"pink\" stroke-width=\"1\" fill =\"none\" />", souradniceXbodY, souradniceYbodY, souradniceXbodY, souradniceYbodZ, souradniceXbodZ, souradniceYbodZ);
-            sw.WriteLine("<path id=\"lineWV\" d=\"M {0} {1} L {2} {3}\" stroke=\"black\" stroke-width=\"1\" fill =\"none\" />", souradniceXbodW, souradniceYbodW, souradniceXbodV, souradniceYbodV);
-            sw.WriteLine("<path id=\"BlineNbodPR\" d=\"M {0} {1} Q {2} {3} {4} {5}\" stroke=\"pink\" stroke-width=\"1\" fill =\"none\" />", souradniceXbodN, souradniceYbodN, souradniceXbodHH, souradniceYbodHH, souradniceXbodPR, souradniceYbodPR);
-            //sw.WriteLine("<path id=\"BlinebodPRbodV\" d=\"M {0} {1} Q {2} {3} {4} {5}\" stroke=\"pink\" stroke-width=\"1\" fill =\"none\" />", souradniceXbodPR, souradniceYbodPR, souradniceXbodPR, souradniceYbodV, souradniceXbodV, souradniceYbodV);
-            sw.WriteLine("<path id=\"linebodPRbodV\" d=\"M {0} {1} L {2} {3}\" stroke=\"pink\" stroke-width=\"1\" fill =\"none\" />", souradniceXbodPR, souradniceYbodPR, souradniceXbodV, souradniceYbodV);
+            //Zadní část
+            SVGLine2(sw, vectorsX, vectorsY, 1, 2, "grey", 1, "BC");
+            SVGLine2(sw, vectorsX, vectorsY, 3, 4, "grey", 1, "DE");
+            SVGLine2(sw, vectorsX, vectorsY, 5, 6, "grey", 1, "FG");
+            SVGLine2(sw, vectorsX, vectorsY, 11, 9, "black", 0, "JK");
+            SVGLine4(sw, vectorsX, vectorsY, 2, 4, 6, 8, "black", 0, "CEGI");
+            SVGLine3(sw, vectorsX, vectorsY, 47, 3, 0, "black", 0, "XDA"); //???
+            SVGLine3(sw, vectorsX, vectorsY, 47, 7, 8, "black", 0, "XHI");
+            SVGDart2(sw, vectorsX, vectorsY, 17, 19, 18, 20, "black", 0, "ZasevekA");
+            SVGLine3(sw, vectorsX, vectorsY, 15, 13, 16, "black", 0, "L1ML2");
+            SVGLineB(sw, vectorsX, vectorsY, 2, 10, 9, 0, "CK");
+            SVGLineB(sw, vectorsX, vectorsY, 0, 12, 11, 0, "AJ");
+
+            //Přední část
+            SVGLine2(sw, vectorsX, vectorsY, 21, 22, "grey", 1, "NO");
+            SVGLine2(sw, vectorsX, vectorsY, 31, 29, "grey", 1, "PU");
+            SVGLine2(sw, vectorsX, vectorsY, 25, 24, "grey", 1, "TQ");
+            SVGLine4(sw, vectorsX, vectorsY, 41, 23, 27, 26, "black", 0, "ZRS2S");
+            SVGLine4(sw, vectorsX, vectorsY, 26, 25, 30, 21, "black", 0, "STU1N");
+            SVGDart2(sw, vectorsX, vectorsY, 33, 35, 34, 36, "black", 0, "ZasevekB");
+            SVGLine3(sw, vectorsX, vectorsY, 46, 37, 38, "black", 0, "W.NO.XXX");
+            SVGLine2(sw, vectorsX, vectorsY, 38, 39, "black", 0, "XXXY");
+            SVGLineB(sw, vectorsX, vectorsY, 39, 42, 41, 0, "YZ");
+            SVGLine2(sw, vectorsX, vectorsY, 43, 46, "black", 0, "VW");
+            SVGLineB(sw, vectorsX, vectorsY, 21, 44, 45, 0, "N.PR");
+            SVGLineB(sw, vectorsX, vectorsY, 43, 48, 45, 0, "V.PR");
             sw.WriteLine("</g>");
             sw.WriteLine("</svg>");
             sw.Flush();
         }
     }
 
-void NakresliJednoduchyZasevek(Vector3 bod1, Vector3 vrchol, Vector3 bod2)
+void SimpleDart(Vector3 bod1, Vector3 vrchol, Vector3 bod2)
     {
         DrawLinearBezierCurve(bod1, vrchol);
         DrawLinearBezierCurve(vrchol, bod2);
     }
 
-    void NakresliDvojityZasevek(Vector3 zasevek1, Vector3 zasevek2, Vector3 zasevek3, Vector3 zasevek4)
+    void DoubleDart(Vector3 zasevek1, Vector3 zasevek2, Vector3 zasevek3, Vector3 zasevek4)
     {
         DrawLinearBezierCurve(zasevek1, zasevek2);
         DrawLinearBezierCurve(zasevek1, zasevek3);
