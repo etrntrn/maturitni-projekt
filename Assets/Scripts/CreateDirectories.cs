@@ -7,7 +7,7 @@ using TMPro;
 using UnityEngine.UI;
 
 public class CreateDirectories : MonoBehaviour
-{ //VÝJIMKY
+{
     public TMP_Text error;
     public Button novyStrih;
     public Button existujiciStrih;
@@ -50,7 +50,7 @@ public class CreateDirectories : MonoBehaviour
             }
         }
     }
-    public void ErrorOn(bool errorActive)
+    public void ErrorOn(bool errorActive) // zobrazí/skryje výstražné zprávy a tlačítka
     {
         if (errorActive == true)
         {

@@ -43,7 +43,7 @@ public class DataTreatment : MonoBehaviour
         string path = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Editor_strihu"));
         string fileCSV = currentFileName + ".csv";
         string file = Path.Combine(path, fileCSV);
-        string[] stringMeasures = new string[9];
+        string[] stringMeasures = new string[7];
         for (int i = 0; i < stringMeasures.Length; i++)
             stringMeasures[i]  = "0";
         if (File.Exists(file))
@@ -58,30 +58,30 @@ public class DataTreatment : MonoBehaviour
                 }
             }
             inOp.text = stringMeasures[0];
-            inVp.text = stringMeasures[1];
-            inOh.text = stringMeasures[2];
-            inOs.text = stringMeasures[3];
-            inDz.text = stringMeasures[4];
-            inDo.text = stringMeasures[5];
-            inSz.text = stringMeasures[6];
-            inSr.text = stringMeasures[7];
-            inDr.text = stringMeasures[8];
+            inOh.text = stringMeasures[1];
+            inOs.text = stringMeasures[2];
+            inDz.text = stringMeasures[3];
+            inDo.text = stringMeasures[4];
+            inSz.text = stringMeasures[5];
+            inSr.text = stringMeasures[6];
         }
     }
 
     public void NoteUserMeasures()
     {
         user.obvodPasu = TestingManager(inOp);
-        user.vyskaPostavy = TestingManager(inVp);
         user.obvodHrudniku = TestingManager(inOh);
         user.obvodSedu = TestingManager(inOs);
         user.delkaZad = TestingManager(inDz);
         user.delkaOdevu = TestingManager(inDo);
         user.sirkaZad = TestingManager(inSz);
         user.sirkaRamene = TestingManager(inSr);
-        user.delkaRukavu = TestingManager(inDr);
-        
-        if (user.obvodPasu <= 0 || user.vyskaPostavy <= 0 || user.obvodHrudniku <= 0 || user.obvodSedu <= 0 || user.delkaZad <= 0 || user.delkaOdevu <= 0 || user.sirkaZad <= 0 || user.sirkaRamene <= 0 || user.delkaRukavu <= 0)
+
+        bool suitableInput = (user.obvodPasu <= 110 & user.obvodHrudniku <= 110 & user.obvodSedu <= 110 & user.delkaZad <= 45 & user.delkaOdevu <= 110 & user.sirkaZad <= 45 & user.sirkaRamene <= 20) 
+            & (user.obvodPasu > 0 & user.obvodHrudniku > 0 & user.obvodSedu > 0 & user.delkaZad > 0 & user.delkaOdevu > 0 & user.sirkaZad > 0 & user.sirkaRamene > 0);
+
+
+        if (!suitableInput)
         {
             SceneManager.LoadScene("InputErrorScene");
         }
@@ -101,13 +101,8 @@ public class DataTreatment : MonoBehaviour
 
     public string GetText(TMP_InputField inputField)
     {
-        //if (inputField.GetComponent<Text>().text != null)
-        //{
-        //textFromInput = inputField.GetComponent<Text>().text;
         textFromInput = inputField.text;
         return textFromInput;
-        //}
-        //else return "0";
     }
 
     public int InputNumberTesting(string textFromInput)

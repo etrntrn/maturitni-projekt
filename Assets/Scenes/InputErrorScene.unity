@@ -809,8 +809,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "Ujist\u011Bte se, \u017Ee v\u0161echny zadan\xE9 m\xEDry jsou cel\xE1
-    kladn\xE1 \u010D\xEDsla. Aplikace nep\u0159ij\xEDm\xE1 desetinn\xE1 ani nekladn\xE1
-    \u010D\xEDsla, p\xEDsmena ani dal\u0161\xED jin\xE9 znaky."
+    kladn\xE1 \u010D\xEDsla nep\u0159ekra\u010Duj\xEDc\xED maxim\xE1ln\xED povolenou
+    velikost. Aplikace nep\u0159ij\xEDm\xE1 desetinn\xE1 ani nekladn\xE1 \u010D\xEDsla,
+    p\xEDsmena ani dal\u0161\xED jin\xE9 znaky."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
   m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}

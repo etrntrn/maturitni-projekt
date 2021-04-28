@@ -35,7 +35,6 @@ public class PatternDrawing : MonoBehaviour
     void UserToLocal(User user)
     {
         user.ReadData();
-        vyskaPostavy = user.vyskaPostavy;
         obvodHrudnikuX = user.obvodHrudniku;
         obvodPasuX = user.obvodPasu;
         obvodSeduX = user.obvodSedu;
@@ -43,7 +42,6 @@ public class PatternDrawing : MonoBehaviour
         delkaOdevu = user.delkaOdevu;
         sirkaZadX = user.sirkaZad;
         sirkaRamene = user.sirkaRamene;
-        delkaRukavu = user.delkaRukavu;
     }
 
     public string GetFileName(User user) // VÝJIMKY
@@ -73,7 +71,6 @@ public class PatternDrawing : MonoBehaviour
         float zhp = (obvodHrudniku12 / 5) + 10.5f + 1.5f;
         float szv = sirkaZad12 + 0.5f;
         float srv = sirkaRamene + 0.5f;
-        float pdr = delkaZad + 4.5f;
         float hpb = (obvodHrudniku12 / 2) + 4; //přídavek v rozpětí 3-5cm  --> 4cm
         float sprur = (obvodHrudniku12 / 4) + 0.5f;
         float prs = (obvodHrudniku12 / 2) - 4 + 1.5f;

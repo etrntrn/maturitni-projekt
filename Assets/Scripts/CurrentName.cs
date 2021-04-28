@@ -29,8 +29,8 @@ public class CurrentName : MonoBehaviour
         pathAppData = user.CompleteFilePath(false, "txt", "tmp_currentName");
     }
 
-    public void SaveName()
-    {
+    public void SaveName() // uloží jméno (je-li vhodné) do souboru, po stisknutí tlačítka
+    { 
         patDat = new PatternDatabase();
         currentPatternName = inpField.text;
         bool nameTaken = NameExists(currentPatternName);
@@ -73,7 +73,7 @@ public class CurrentName : MonoBehaviour
         }
         
     }
-    public void PatternNameToFile(string currentPatternName)
+    public void PatternNameToFile(string currentPatternName) //používá se při výběru z dropdownu
     {
         User user = new User();
         pathAppData = user.CompleteFilePath(false, "txt", "tmp_currentName");
@@ -84,7 +84,7 @@ public class CurrentName : MonoBehaviour
         }
     }
 
-    public bool NameExists(string namePattern)
+    public bool NameExists(string namePattern) 
     {
         PatternDatabase patDat = new PatternDatabase();
         patDat.PatternNames = patDat.PatternNamesToList();
