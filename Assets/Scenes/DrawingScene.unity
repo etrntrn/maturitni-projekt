@@ -281,8 +281,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -138, y: 55}
-  m_SizeDelta: {x: 290, y: 230}
+  m_AnchoredPosition: {x: -145, y: 55}
+  m_SizeDelta: {x: 280, y: 230}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &951966241
 MonoBehaviour:
@@ -303,9 +303,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Tisk ve form\xE1tu st\u0159ihu naleznete ve slo\u017Ece Editor st\u0159ih\u016F
-    v dokumentech. Je mo\u017En\xE9, \u017Ee budete muset v prohl\xED\u017Ee\u010Di
-    zm\u011Bn\u0161it zobrazen\xED, st\u0159ih je v re\xE1ln\xE9 velikosti."
+  m_text: "St\u0159ih ve form\xE1tu k tisku (soubor SVG) naleznete ve slo\u017Ece
+    Editor st\u0159ih\u016F v Dokumentech. Je mo\u017En\xE9, \u017Ee budete muset
+    v prohl\xED\u017Ee\u010Di zm\u011Bn\u0161it zobrazen\xED, st\u0159ih je v re\xE1ln\xE9
+    velikosti."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
   m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
@@ -1034,15 +1035,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obvodPasu: 0
-  vyskaPostavy: 0
   obvodHrudniku: 0
   obvodSedu: 0
   delkaZad: 0
   delkaOdevu: 0
   sirkaZad: 0
   sirkaRamene: 0
-  delkaRukavu: 0
-  umisteni: 
 --- !u!1 &1432363203
 GameObject:
   m_ObjectHideFlags: 0
