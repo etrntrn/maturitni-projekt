@@ -5,11 +5,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEditor;
+using UnityEngine.SceneManagement;
 
 public class PatternDrawing : MonoBehaviour
 {
     // Údaje od uživatele + pomocné míry
-    static int vyskaPostavy;
     static int obvodHrudnikuX;
     static int obvodPasuX;
     static int obvodSeduX;
@@ -17,7 +17,6 @@ public class PatternDrawing : MonoBehaviour
     static int delkaOdevu;
     static int sirkaZadX;
     static int sirkaRamene;
-    static int delkaRukavu;
 
     LineRenderer lr;
     static int numberPoints = 200;
@@ -42,23 +41,6 @@ public class PatternDrawing : MonoBehaviour
         delkaOdevu = user.delkaOdevu;
         sirkaZadX = user.sirkaZad;
         sirkaRamene = user.sirkaRamene;
-    }
-
-    public string GetFileName(User user) // VÝJIMKY
-    {
-        string s = "";
-        string tmpFilePath = user.CompleteFilePath(false, "txt", "tmp_currentName");
-
-        using (StreamReader sr = new StreamReader(tmpFilePath))
-        {
-            s = sr.ReadLine();
-        }
-        if (s == null)
-        {
-            s = " ";
-            Debug.Log("jméno je prázdné");
-        }
-        return s;
     }
 
     public Vector3[] Calculation()
@@ -303,9 +285,9 @@ public class PatternDrawing : MonoBehaviour
         int[] vectorsY = new int[vectors.Length];
         for (int i = 0; i < maxIndex; i++)
         {
-            vectorsY[i] = (int)System.Math.Round(vectors[maxIndex].y - vectors[i].y);
+            vectorsY[i] = (int)Math.Round(vectors[maxIndex].y - vectors[i].y);
         }
-        vectorsY[maxIndex] = (int)System.Math.Round(vectors[maxIndex].y);
+        vectorsY[maxIndex] = (int)Math.Round(vectors[maxIndex].y);
         return vectorsY;
     }
 
@@ -315,7 +297,7 @@ public class PatternDrawing : MonoBehaviour
         int[] vectorsX = new int[vectors.Length];
         for (int i = 0; i <= maxIndex; i++)
         {
-            vectorsX[i] = (int)System.Math.Round(vectors[i].x);
+            vectorsX[i] = (int)Math.Round(vectors[i].x);
         }
         return vectorsX;
     }
@@ -346,48 +328,56 @@ public class PatternDrawing : MonoBehaviour
         string line = "<path id=\"{6}\" d=\"M {0} {1} Q {2} {3} {4} {5}\" stroke=\"black\" stroke-width=\"1\"  fill =\"none\" />";
         sw.WriteLine(line, vectorsX[num1], vectorsY[num1], vectorsX[num2], vectorsY[num2], vectorsX[num3], vectorsY[num3], name);
     }
-    void  CreateSVGPattern(Vector3[] vectors)
+    void CreateSVGPattern(Vector3[] vectors)
     {
         int[] vectorsX = SplitX(vectors);
         int[] vectorsY = changeValueY(vectors);
 
         User user = new User();
-        string pathSavePattern = user.CompleteFilePath(true, "svg", GetFileName(user));
-        using (StreamWriter sw = new StreamWriter(pathSavePattern, false))
+        string patName = user.GetFileName();
+        if (patName != "error")
         {
-            sw.WriteLine("<svg height=\"{0}\" width=\"{1}\" xmlns=\"http://www.w3.org/2000/svg\">", vectorsY[50] * 38, vectorsX[50] * 38); 
-            sw.WriteLine("<g transform =\"scale(37.8)\">");
-            sw.WriteLine("<rect x=\"5\" y=\"5\" width=\"10\" height=\"10\" stroke=\"grey\" fill =\"none\"/>"); //čtverec 10x10
+            string pathSavePattern = user.CompleteFilePath(true, "svg", patName);
+            using (StreamWriter sw = new StreamWriter(pathSavePattern, false))
+            {
+                sw.WriteLine("<svg height=\"{0}\" width=\"{1}\" xmlns=\"http://www.w3.org/2000/svg\">", vectorsY[50] * 38, vectorsX[50] * 38);
+                sw.WriteLine("<g transform =\"scale(37.8)\">");
+                sw.WriteLine("<rect x=\"5\" y=\"5\" width=\"10\" height=\"10\" stroke=\"grey\" fill =\"none\"/>"); //čtverec 10x10
 
-            //Zadní část
-            SVGLine2(sw, vectorsX, vectorsY, 1, 2, "grey", 1, "BC");
-            SVGLine2(sw, vectorsX, vectorsY, 3, 4, "grey", 1, "DE");
-            SVGLine2(sw, vectorsX, vectorsY, 5, 6, "grey", 1, "FG");
-            SVGLine2(sw, vectorsX, vectorsY, 11, 9, "black", 0, "JK");
-            SVGLine4(sw, vectorsX, vectorsY, 2, 4, 6, 8, "CEGI");
-            SVGLine3(sw, vectorsX, vectorsY, 47, 3, 0, "XDA");
-            SVGLine3(sw, vectorsX, vectorsY, 47, 7, 8, "XHI");
-            SVGDart2(sw, vectorsX, vectorsY, 17, 19, 18, 20, "ZasevekA");
-            SVGLine3(sw, vectorsX, vectorsY, 15, 13, 16, "L1ML2");
-            SVGLineB(sw, vectorsX, vectorsY, 2, 10, 9, "CK");
-            SVGLineB(sw, vectorsX, vectorsY, 0, 12, 11, "AJ");
+                //Zadní část
+                SVGLine2(sw, vectorsX, vectorsY, 1, 2, "grey", 1, "BC");
+                SVGLine2(sw, vectorsX, vectorsY, 3, 4, "grey", 1, "DE");
+                SVGLine2(sw, vectorsX, vectorsY, 5, 6, "grey", 1, "FG");
+                SVGLine2(sw, vectorsX, vectorsY, 11, 9, "black", 0, "JK");
+                SVGLine4(sw, vectorsX, vectorsY, 2, 4, 6, 8, "CEGI");
+                SVGLine3(sw, vectorsX, vectorsY, 47, 3, 0, "XDA");
+                SVGLine3(sw, vectorsX, vectorsY, 47, 7, 8, "XHI");
+                SVGDart2(sw, vectorsX, vectorsY, 17, 19, 18, 20, "ZasevekA");
+                SVGLine3(sw, vectorsX, vectorsY, 15, 13, 16, "L1ML2");
+                SVGLineB(sw, vectorsX, vectorsY, 2, 10, 9, "CK");
+                SVGLineB(sw, vectorsX, vectorsY, 0, 12, 11, "AJ");
 
-            //Přední část
-            SVGLine2(sw, vectorsX, vectorsY, 21, 22, "grey", 1, "NO");
-            SVGLine2(sw, vectorsX, vectorsY, 31, 29, "grey", 1, "PU");
-            SVGLine2(sw, vectorsX, vectorsY, 25, 24, "grey", 1, "TQ");
-            SVGLine4(sw, vectorsX, vectorsY, 41, 23, 27, 26, "ZRS2S");
-            SVGLine4(sw, vectorsX, vectorsY, 26, 25, 30, 21, "STU1N");
-            SVGDart2(sw, vectorsX, vectorsY, 33, 35, 34, 36, "ZasevekB");
-            SVGLine3(sw, vectorsX, vectorsY, 46, 37, 38, "W.NO.XXX");
-            SVGLine2(sw, vectorsX, vectorsY, 38, 39, "black", 0, "XXXY");
-            SVGLineB(sw, vectorsX, vectorsY, 39, 42, 41,  "YZ");
-            SVGLine2(sw, vectorsX, vectorsY, 43, 46, "black", 0, "VW");
-            SVGLineB(sw, vectorsX, vectorsY, 21, 44, 45, "N.PR");
-            SVGLineB(sw, vectorsX, vectorsY, 43, 48, 45, "V.PR");
-            sw.WriteLine("</g>");
-            sw.WriteLine("</svg>");
-            sw.Flush();
+                //Přední část
+                SVGLine2(sw, vectorsX, vectorsY, 21, 22, "grey", 1, "NO");
+                SVGLine2(sw, vectorsX, vectorsY, 31, 29, "grey", 1, "PU");
+                SVGLine2(sw, vectorsX, vectorsY, 25, 24, "grey", 1, "TQ");
+                SVGLine4(sw, vectorsX, vectorsY, 41, 23, 27, 26, "ZRS2S");
+                SVGLine4(sw, vectorsX, vectorsY, 26, 25, 30, 21, "STU1N");
+                SVGDart2(sw, vectorsX, vectorsY, 33, 35, 34, 36, "ZasevekB");
+                SVGLine3(sw, vectorsX, vectorsY, 46, 37, 38, "W.NO.XXX");
+                SVGLine2(sw, vectorsX, vectorsY, 38, 39, "black", 0, "XXXY");
+                SVGLineB(sw, vectorsX, vectorsY, 39, 42, 41, "YZ");
+                SVGLine2(sw, vectorsX, vectorsY, 43, 46, "black", 0, "VW");
+                SVGLineB(sw, vectorsX, vectorsY, 21, 44, 45, "N.PR");
+                SVGLineB(sw, vectorsX, vectorsY, 43, 48, 45, "V.PR");
+                sw.WriteLine("</g>");
+                sw.WriteLine("</svg>");
+                sw.Flush();
+            }
+        }
+        else
+        {
+            SceneManager.LoadScene("GeneralError");
         }
     }
     void SimpleDart(Vector3 bod1, Vector3 vrchol, Vector3 bod2)
@@ -421,7 +411,7 @@ public class PatternDrawing : MonoBehaviour
         line.SetPositions(positions);
     }
 
-    void DrawQuadraticBezierCurve(Vector3 point1, Vector3 point2, Vector3 point3)
+    void DrawQuadraticBezierCurve(Vector3 point1, Vector3 point2, Vector3 point3) // Napsáno podle návodu na theappguruz.com, viz dokumentace
     {
         for (int i = 1; i < numberPoints + 1; i++)
         {
@@ -431,7 +421,7 @@ public class PatternDrawing : MonoBehaviour
         DrawLine(bezierPositions);
     }
 
-    Vector3 CalculateQuadraticBezierPoint(float t, Vector3 point1, Vector3 point2, Vector3 point3)
+    Vector3 CalculateQuadraticBezierPoint(float t, Vector3 point1, Vector3 point2, Vector3 point3) // Napsáno podle návodu na theappguruz.com, viz dokumentace
     {
         float z = 1 - t;
         float t2 = t * t;
@@ -440,7 +430,7 @@ public class PatternDrawing : MonoBehaviour
         return bezierPoint;
     }
 
-    void DrawLinearBezierCurve(Vector3 point1, Vector3 point2)
+    void DrawLinearBezierCurve(Vector3 point1, Vector3 point2) // Napsáno podle návodu na theappguruz.com, viz dokumentace
     {
         for (int i = 0; i < numberPoints ; i++)
         {
@@ -450,7 +440,7 @@ public class PatternDrawing : MonoBehaviour
         DrawLine(bezierPositions);
     }
 
-    Vector3 CalculateLinearBezierPoint(float t, Vector3 point1, Vector3 point2)
+    Vector3 CalculateLinearBezierPoint(float t, Vector3 point1, Vector3 point2) // Napsáno podle návodu na theappguruz.com, viz dokumentace
     {
         Vector3 result = point1 + t * (point2 - point1);
         return result;

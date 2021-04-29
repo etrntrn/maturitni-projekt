@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class User : MonoBehaviour
 {
@@ -42,18 +43,25 @@ public class User : MonoBehaviour
     public string GetFileName() // VÝJIMKY
     {
         string s = "";
-        string pathAppDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Editor_strihu"); //try catch
-        string AppDataFile = Path.Combine(pathAppDataFolder, @"tmp_currentName.txt");
+        //string pathAppDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Editor_strihu"); //try catch
+        //string AppDataFile = Path.Combine(pathAppDataFolder, @"tmp_currentName.txt");
         string tmpFilePath = CompleteFilePath(false, "txt", "tmp_currentName");
-
-        using (StreamReader sr = new StreamReader(tmpFilePath))
+        if (File.Exists(tmpFilePath))
         {
-            s = sr.ReadLine();
+            using (StreamReader sr = new StreamReader(tmpFilePath))
+            {
+                s = sr.ReadLine();
+            }
+            if (s == null)
+            {
+                s = "error";
+                Debug.Log("jméno je prázdné - set error");
+            }
         }
-        if (s == null)
+        else
         {
-            s = " ";
-            Debug.Log("jméno je prázdné");
+            s = "error";
+            Debug.Log("soubor neexistuje - set error");
         }
         return s;
     }
@@ -93,16 +101,23 @@ public class User : MonoBehaviour
 
     public void SaveData()
     {
-        string userMeasuresFile = CompleteFilePath(false, "csv", GetFileName());
-        int[] field = DataToArray();
-
-        using (StreamWriter sw = new StreamWriter(userMeasuresFile, false))
+        string patName = GetFileName();
+        if (patName == "error")
         {
-            foreach (int i in field)
+            SceneManager.LoadScene("GeneralError");
+        }
+        else
+        {
+            string userMeasuresFile = CompleteFilePath(false, "csv", patName);
+            int[] array = DataToArray();
+            using (StreamWriter sw = new StreamWriter(userMeasuresFile, false))
             {
-                sw.Write(i + ";");
+                foreach (int i in array)
+                {
+                    sw.Write(i + ";");
+                }
+                sw.Flush();
             }
-            sw.Flush();
         }
     }
 
@@ -118,17 +133,25 @@ public class User : MonoBehaviour
 
     public void ReadData()
     {
-        string path = CompleteFilePath(false, "csv", GetFileName()); 
-        string s = "";
-        using (StreamReader sr = new StreamReader(path))
+        string patName = GetFileName();
+        if (patName == "error")
         {
-            s = sr.ReadLine();
-            //while ((s = sr.ReadLine())) != null) //bacha
-            //{
+            SceneManager.LoadScene("GeneralError");
+        }
+        else
+        {
+            string path = CompleteFilePath(false, "csv", patName);
+            string s = "";
+            using (StreamReader sr = new StreamReader(path))
+            {
+                s = sr.ReadLine();
+                //while ((s = sr.ReadLine())) != null) //bacha
+                //{
                 string[] split = s.Split(';');
-            //}
-            int[] numbers = NumberTesting(split);
-            AssignData(numbers);
+                //}
+                int[] numbers = NumberTesting(split);
+                AssignData(numbers);
+            }
         }
     }
 }

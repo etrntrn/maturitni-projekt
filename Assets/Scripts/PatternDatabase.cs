@@ -26,7 +26,7 @@ public class PatternDatabase : MonoBehaviour
         using (StreamReader sr = new StreamReader(user.CompleteFilePath(false, "csv", "pattern_database")))
         {
             string s = sr.ReadLine();
-            if (s != null) //
+            if (s != null)
             {
                 string[] split = s.Split(';');
                 Array.Resize(ref split, split.Length - 1);
@@ -45,7 +45,6 @@ public class PatternDatabase : MonoBehaviour
         PatternNames.Add(patternName);
         string[] array = PatternNames.ToArray();
         user = new User();
-        //user = gameObject.AddComponent<User>();
         using (StreamWriter sw = new StreamWriter(user.CompleteFilePath(false, "csv", "pattern_database"), false))
         {
             foreach (string name in array)
@@ -77,6 +76,11 @@ public class PatternDatabase : MonoBehaviour
     {
         PatternNames = PatternNamesToList();
         PatternNames.RemoveAt(patIndex);
+        Rewrite(PatternNames);
+        LoadDropdown();
+    }
+    public void Rewrite(List<string> PatternNames)
+    {
         string[] array = PatternNames.ToArray();
         user = new User();
         using (StreamWriter sw = new StreamWriter(user.CompleteFilePath(false, "csv", "pattern_database"), false))
@@ -85,9 +89,13 @@ public class PatternDatabase : MonoBehaviour
                 sw.Write(name + ';');
             sw.Flush();
         }
+    }
+
+    public void RemovePatternByName(string patName)
+    {
         PatternNames = PatternNamesToList();
-        dropdown.ClearOptions();
-        dropdown.AddOptions(PatternNames);
+        PatternNames.Remove(patName);
+        Rewrite(PatternNames);
     }
 
     public void DropdownSelected() //pokud metoda MoveScene potvrdí existenci souboru střihu, načte jeho míry ve scéně Measures
@@ -124,7 +132,10 @@ public class PatternDatabase : MonoBehaviour
         user = new User();
         databaseFileName = "pattern_database";
         pathPatternNamesList = user.CompleteFilePath(false, "csv", databaseFileName);
-
+        LoadDropdown();
+    }
+    void LoadDropdown()
+    {
         PatternNames = PatternNamesToList();
         if (PatternNames.Count == 0)
         {
@@ -138,4 +149,5 @@ public class PatternDatabase : MonoBehaviour
             dropdown.AddOptions(PatternNames);
         }
     }
+    
 }

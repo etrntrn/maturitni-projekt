@@ -36,34 +36,48 @@ public class DataTreatment : MonoBehaviour
 
     public void DisplayMeasures()
     {
-        PatternDrawing drawing = new PatternDrawing();
         User user = new User();
-        string currentFileName = drawing.GetFileName(user);
-        CurrentName patternName = new CurrentName();
-        string path = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Editor_strihu"));
-        string fileCSV = currentFileName + ".csv";
-        string file = Path.Combine(path, fileCSV);
-        string[] stringMeasures = new string[7];
-        for (int i = 0; i < stringMeasures.Length; i++)
-            stringMeasures[i]  = "0";
-        if (File.Exists(file))
+        string currentFileName = user.GetFileName();
+        if (currentFileName == "error")
         {
-            using (StreamReader sr = new StreamReader(file))
+            SceneManager.LoadScene("GeneralError");
+        }
+        else
+        {
+            string path = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Editor_strihu"));
+            string fileCSV = currentFileName + ".csv";
+            string file = Path.Combine(path, fileCSV);
+            string[] stringMeasures = new string[7];
+            for (int i = 0; i < stringMeasures.Length; i++)
+                stringMeasures[i] = "0";
+            if (File.Exists(file))
             {
-                string s = sr.ReadLine();
-                if (s != null)
+                using (StreamReader sr = new StreamReader(file))
                 {
-                    stringMeasures = s.Split(';');
-                    Array.Resize(ref stringMeasures, stringMeasures.Length - 1);
+                    string s = sr.ReadLine();
+                    if (s != null)
+                    {
+                        stringMeasures = s.Split(';');
+                        Array.Resize(ref stringMeasures, stringMeasures.Length - 1);
+                    }
+                }
+                if (stringMeasures.Length == 7)
+                {
+                    inOp.text = stringMeasures[0];
+                    inOh.text = stringMeasures[1];
+                    inOs.text = stringMeasures[2];
+                    inDz.text = stringMeasures[3];
+                    inDo.text = stringMeasures[4];
+                    inSz.text = stringMeasures[5];
+                    inSr.text = stringMeasures[6];
+                }
+                else
+                {
+                    PatternDatabase patDat = new PatternDatabase();
+                    patDat.RemovePatternByName(currentFileName);
+                    SceneManager.LoadScene("GeneralError");
                 }
             }
-            inOp.text = stringMeasures[0];
-            inOh.text = stringMeasures[1];
-            inOs.text = stringMeasures[2];
-            inDz.text = stringMeasures[3];
-            inDo.text = stringMeasures[4];
-            inSz.text = stringMeasures[5];
-            inSr.text = stringMeasures[6];
         }
     }
 
