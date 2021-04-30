@@ -17,7 +17,6 @@ public class User : MonoBehaviour
 
     public void AssignData(int[] array)
     {
-        //ošetřit field.Lenght != 9
         obvodPasu = array[0];
         obvodHrudniku = array[1];
         obvodSedu = array[2];
@@ -40,11 +39,9 @@ public class User : MonoBehaviour
         return array;
     }
 
-    public string GetFileName() // VÝJIMKY
+    public string GetFileName()
     {
         string s = "";
-        //string pathAppDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Editor_strihu"); //try catch
-        //string AppDataFile = Path.Combine(pathAppDataFolder, @"tmp_currentName.txt");
         string tmpFilePath = CompleteFilePath(false, "txt", "tmp_currentName");
         if (File.Exists(tmpFilePath))
         {
@@ -145,10 +142,7 @@ public class User : MonoBehaviour
             using (StreamReader sr = new StreamReader(path))
             {
                 s = sr.ReadLine();
-                //while ((s = sr.ReadLine())) != null) //bacha
-                //{
                 string[] split = s.Split(';');
-                //}
                 int[] numbers = NumberTesting(split);
                 AssignData(numbers);
             }

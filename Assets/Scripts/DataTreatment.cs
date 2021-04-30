@@ -28,13 +28,13 @@ public class DataTreatment : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-         user = gameObject.AddComponent<User>(); //*
+        user = gameObject.AddComponent<User>();
         Scene scene = SceneManager.GetActiveScene();
         if (scene.name == "Measures")
             DisplayMeasures();
     }
 
-    public void DisplayMeasures()
+    public void DisplayMeasures() //zobrazí hodnoty ze souboru v inputFields
     {
         User user = new User();
         string currentFileName = user.GetFileName();
@@ -81,7 +81,7 @@ public class DataTreatment : MonoBehaviour
         }
     }
 
-    public void NoteUserMeasures()
+    public void NoteUserMeasures() //kontroluje a následně zapisuje míry
     {
         user.obvodPasu = TestingManager(inOp);
         user.obvodHrudniku = TestingManager(inOh);

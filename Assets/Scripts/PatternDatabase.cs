@@ -19,6 +19,30 @@ public class PatternDatabase : MonoBehaviour
     public TMP_Text sceneTitle;
     public Button continueButton;
 
+    void Start()
+    {
+        error.gameObject.SetActive(false);
+        user = new User();
+        databaseFileName = "pattern_database";
+        pathPatternNamesList = user.CompleteFilePath(false, "csv", databaseFileName);
+        LoadDropdown();
+    }
+    void LoadDropdown()
+    {
+        PatternNames = PatternNamesToList();
+        if (PatternNames.Count == 0)
+        {
+            sceneTitle.text = "Vypadá to, že ještě nemáte žádné střihy.";
+            dropdown.gameObject.SetActive(false);
+            continueButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            dropdown.ClearOptions();
+            dropdown.AddOptions(PatternNames);
+        }
+    }
+
     public List<string> PatternNamesToList() ///načte data (názvy vytvořených střihů) z csv souboru do listu
     {
         List<string> list1 = new List<string>();
@@ -38,7 +62,6 @@ public class PatternDatabase : MonoBehaviour
         }
         return list1;
     }
-
     public void AddPatternToFile(string patternName) //připíše do databáze střihů název nového střihu
     {
         PatternNames = PatternNamesToList();
@@ -126,28 +149,4 @@ public class PatternDatabase : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        error.gameObject.SetActive(false);
-        user = new User();
-        databaseFileName = "pattern_database";
-        pathPatternNamesList = user.CompleteFilePath(false, "csv", databaseFileName);
-        LoadDropdown();
-    }
-    void LoadDropdown()
-    {
-        PatternNames = PatternNamesToList();
-        if (PatternNames.Count == 0)
-        {
-            sceneTitle.text = "Vypadá to, že ještě nemáte žádné střihy.";
-            dropdown.gameObject.SetActive(false);
-            continueButton.gameObject.SetActive(false);
-        }
-        else
-        {
-            dropdown.ClearOptions();
-            dropdown.AddOptions(PatternNames);
-        }
-    }
-    
 }

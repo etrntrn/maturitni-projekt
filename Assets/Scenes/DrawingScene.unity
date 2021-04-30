@@ -281,8 +281,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -145, y: 55}
-  m_SizeDelta: {x: 280, y: 230}
+  m_AnchoredPosition: {x: -150, y: 55}
+  m_SizeDelta: {x: 288, y: 230}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &951966241
 MonoBehaviour:
@@ -304,8 +304,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "St\u0159ih ve form\xE1tu k tisku (soubor SVG) naleznete ve slo\u017Ece
-    Editor st\u0159ih\u016F v Dokumentech. Je mo\u017En\xE9, \u017Ee budete muset
-    v prohl\xED\u017Ee\u010Di zm\u011Bn\u0161it zobrazen\xED, st\u0159ih je v re\xE1ln\xE9
+    Editor st\u0159ih\u016F v Dokumentech. \nJe mo\u017En\xE9, \u017Ee budete muset
+    zmen\u0161it zobrazen\xED v prohl\xED\u017Ee\u010Di, st\u0159ih je v re\xE1ln\xE9
     velikosti."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}

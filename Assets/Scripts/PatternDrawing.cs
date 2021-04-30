@@ -24,7 +24,6 @@ public class PatternDrawing : MonoBehaviour
 
     void Start()
     {
-        //user = FindObjectOfType<User>(); //User user = gameObject.AddComponent<User>();//user = User.GetData(DataTreatment.NoteUserMeasures().field);
         User user = new User();
         UserToLocal(user);
         Vector3[] vectors = Calculation();
@@ -72,7 +71,7 @@ public class PatternDrawing : MonoBehaviour
         int souradniceYbodC = (int)Math.Round(souradniceYbodA - zhp);
 
         int souradniceXbodB = pocatecniSouradniceX + 1;
-        Vector3 bodB = new Vector3(souradniceXbodB, souradniceYbodC, 0); //bod ZhpA
+        Vector3 bodB = new Vector3(souradniceXbodB, souradniceYbodC, 0);
         int souradniceXbodC = (int)Math.Round(pocatecniSouradniceX + szv + ((2 * sprur) / 3));
         Vector3 bodC = new Vector3(souradniceXbodC, souradniceYbodC, 0);
 
@@ -258,7 +257,7 @@ public class PatternDrawing : MonoBehaviour
         DrawLinearBezierCurve(vectors[21], vectors[22]);
         DrawLinearBezierCurve(vectors[41], vectors[23]);
 
-        Vector3[] stroke3 = { vectors[24], vectors[25] };//
+        Vector3[] stroke3 = { vectors[24], vectors[25] };
         DrawLine(stroke3);
 
         DrawLinearBezierCurve(vectors[23], vectors[27]);
