@@ -51,9 +51,8 @@ public class DataTreatment : MonoBehaviour
         {
             if (inp.text == "0")
             {
-                Image ohColor = inp.gameObject.GetComponent<Image>();
-                ohColor.color = Color.red;
-                Debug.Log("here we go");
+                Image inpColor = inp.gameObject.GetComponent<Image>();
+                inpColor.color = Color.red;
             }
         }
     }
@@ -109,13 +108,11 @@ public class DataTreatment : MonoBehaviour
     {
         TMP_InputField[] inpFields = { inOp, inOh, inOs, inDz, inDo, inSz, inSr }; 
         int[] limits = { 110, 110, 110, 45, 110, 45, 20 };
-        Debug.Log("limits");
         int[] measurements = new int[7];
         for (int i = 0; i < measurements.Length; i++)
         {
             measurements[i] = TestingManager(inpFields[i]);
             measurements[i] = TooLongTooShort(measurements[i], limits[i]);
-            Debug.Log("measurements " + i);
         }
         user.AssignData(measurements);
 
@@ -148,7 +145,6 @@ public class DataTreatment : MonoBehaviour
             number = 0;
         if (number < 0)
             number = 0;
-        Debug.Log("numbers-completed");
         return number;
     }
     
