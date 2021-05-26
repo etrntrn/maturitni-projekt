@@ -10,28 +10,52 @@ using System;
 public class DataTreatment : MonoBehaviour
 {
     User user;
-    
+
     public TMP_InputField inOp;
-    public TMP_InputField inVp;
+    //public TMP_InputField inVp;
     public TMP_InputField inOh;
     public TMP_InputField inOs;
     public TMP_InputField inDz;
     public TMP_InputField inDo;
     public TMP_InputField inSz;
     public TMP_InputField inSr;
-    public TMP_InputField inDr;
-
+    //public TMP_InputField inDr;
     public string tmp;
     public int tmp2;
     public string textFromInput;
 
-    // Start is called before the first frame update
+    
     void Start()
     {
         user = gameObject.AddComponent<User>();
         Scene scene = SceneManager.GetActiveScene();
         if (scene.name == "Measures")
+        {
+            TMP_InputField[] inpFields = { inOp, inOh, inOs, inDz, inDo, inSz, inSr };
             DisplayMeasures();
+            TurnRed(inpFields);
+        }
+
+    }
+    public void TurnRed(TMP_InputField[] inpFields) //pole, do niž uživatel zadal nevhodné hodnoty, zčervenají
+    {
+        
+        Image[] backgrounds = new Image[inpFields.Length];
+        int i = 0;
+        foreach (TMP_InputField inp in inpFields)
+        {
+            backgrounds[i] = inp.image;
+            i++;
+        }
+        foreach (TMP_InputField inp in inpFields)
+        {
+            if (inp.text == "0")
+            {
+                Image ohColor = inp.gameObject.GetComponent<Image>();
+                ohColor.color = Color.red;
+                Debug.Log("here we go");
+            }
+        }
     }
 
     public void DisplayMeasures() //zobrazí hodnoty ze souboru v inputFields
@@ -83,20 +107,32 @@ public class DataTreatment : MonoBehaviour
 
     public void NoteUserMeasures() //kontroluje a následně zapisuje míry
     {
-        user.obvodPasu = TestingManager(inOp);
+        TMP_InputField[] inpFields = { inOp, inOh, inOs, inDz, inDo, inSz, inSr }; 
+        int[] limits = { 110, 110, 110, 45, 110, 45, 20 };
+        Debug.Log("limits");
+        int[] measurements = new int[7];
+        for (int i = 0; i < measurements.Length; i++)
+        {
+            measurements[i] = TestingManager(inpFields[i]);
+            measurements[i] = TooLongTooShort(measurements[i], limits[i]);
+            Debug.Log("measurements " + i);
+        }
+        user.AssignData(measurements);
+
+        /*user.obvodPasu = TestingManager(inOp);
         user.obvodHrudniku = TestingManager(inOh);
         user.obvodSedu = TestingManager(inOs);
         user.delkaZad = TestingManager(inDz);
         user.delkaOdevu = TestingManager(inDo);
         user.sirkaZad = TestingManager(inSz);
-        user.sirkaRamene = TestingManager(inSr);
+        user.sirkaRamene = TestingManager(inSr);*/
 
-        bool suitableInput = (user.obvodPasu <= 110 & user.obvodHrudniku <= 110 & user.obvodSedu <= 110 & user.delkaZad <= 45 & user.delkaOdevu <= 110 & user.sirkaZad <= 45 & user.sirkaRamene <= 20) 
-            & (user.obvodPasu > 0 & user.obvodHrudniku > 0 & user.obvodSedu > 0 & user.delkaZad > 0 & user.delkaOdevu > 0 & user.sirkaZad > 0 & user.sirkaRamene > 0);
-
+        bool suitableInput = (user.obvodPasu > 0 & user.obvodHrudniku > 0 & user.obvodSedu > 0 & user.delkaZad > 0 & user.delkaOdevu > 0 & user.sirkaZad > 0 & user.sirkaRamene > 0);
+        //& user.obvodPasu <= 110 & user.obvodHrudniku <= 110 & user.obvodSedu <= 110 & user.delkaZad <= 45 & user.delkaOdevu <= 110 & user.sirkaZad <= 45 & user.sirkaRamene <= 20);
 
         if (!suitableInput)
         {
+            user.SaveData();
             SceneManager.LoadScene("InputErrorScene");
         }
         else
@@ -104,6 +140,16 @@ public class DataTreatment : MonoBehaviour
             user.SaveData();
             SceneManager.LoadScene("DrawingScene");
         }
+    }
+
+    public int TooLongTooShort(int number, int limit)
+    {
+        if (number > limit)
+            number = 0;
+        if (number < 0)
+            number = 0;
+        Debug.Log("numbers-completed");
+        return number;
     }
     
     public int TestingManager(TMP_InputField inpField)
