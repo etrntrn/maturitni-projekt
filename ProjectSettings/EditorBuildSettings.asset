@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GeneralError.unity
     guid: 5b32c56cd5a913e4c98bf12a08fb08cb
+  - enabled: 1
+    path: Assets/Scenes/Checkbox.unity
+    guid: 383188544d387fd4ea3a11ca85f66c54
   m_configObjects: {}

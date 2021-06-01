@@ -135,7 +135,7 @@ public class DataTreatment : MonoBehaviour
         else
         {
             user.SaveData();
-            SceneManager.LoadScene("DrawingScene");
+            SceneManager.LoadScene("Checkbox");
         }
     }
 

@@ -5,26 +5,6 @@ using UnityEngine.UI;
 
 public class Instructions : MonoBehaviour
 {
-    public bool togTog;
-    public void Start()
-    {
-        /*GameObject checkbox = new GameObject();
-        checkbox.AddComponent<Toggle>();
-        Toggle tog = FindObjectOfType<Toggle>();
-        tog.isOn = false ;*/
-        //Rect position = new Rect(10, 10, 10, 10);
-        //bool togTog = GUI.Toggle(position, true, "A-D");
-        Debug.Log(togTog);
-        //Toggle checkbox1 = new Toggle();
-
-    }
-
-   /* private void OnGUI()
-    {
-        Rect position = new Rect(10, 10, 10, 10);
-        togTog = GUI.Toggle(position, true, "A-D");
-        Debug.Log(togTog);
-    }*/
 
     public List<Line> BasicInstructions()
     {

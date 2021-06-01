@@ -16,7 +16,8 @@ public class PatternDrawing : MonoBehaviour
     void Start()
     {
         Instructions instr = new Instructions();
-        List<Line> toDrawList = instr.BasicInstructions();
+        VisibleList visList = new VisibleList();
+        List<Line> toDrawList = visList.ReadList();//instr.BasicInstructions();
         foreach(Line line in toDrawList)
         {
             DrawVector(line);
@@ -59,12 +60,12 @@ public class PatternDrawing : MonoBehaviour
 
     void DrawVector(Line line)
     {
-        if (line.lineType == "linearBezier" && line.pointsList.Count == 2)
+        if (line.lineType == "linearBezier" && line.pointsList.Count == 2 && line.visible == true)
         {
             List<Vector3> vectors = line.pointsValues(line.pointsList);
             DrawLinearBezierCurve(vectors[0], vectors[1]);
         }
-        if (line.lineType == "quadraticBezier" && line.pointsList.Count == 3)
+        if (line.lineType == "quadraticBezier" && line.pointsList.Count == 3 && line.visible == true)
         {
             List<Vector3> vectors = line.pointsValues(line.pointsList);
             DrawQuadraticBezierCurve(vectors[0], vectors[2], vectors[1]);
