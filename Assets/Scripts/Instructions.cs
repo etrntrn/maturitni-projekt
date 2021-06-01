@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class Instructions : MonoBehaviour
 {
-
     public List<Line> BasicInstructions()
     {
         Line lSettings = new Line();

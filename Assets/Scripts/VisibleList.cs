@@ -14,8 +14,6 @@ public class VisibleList : MonoBehaviour
     List<string> lineNames;
     List<string> visibleLineNames;
     List<string> invisibleLineNames;
-
-    // Start is called before the first frame update
     void Start()
     {
         Scene scene = SceneManager.GetActiveScene();
@@ -97,7 +95,6 @@ public class VisibleList : MonoBehaviour
                     string[] split = s.Split('-');
                     foreach (Line line in lines)
                     {
-                        Debug.Log("working");
                         if (line.pointsList[0] == split[0] && line.pointsList[1] == split[1])
                             line.visible = true;
                     }
