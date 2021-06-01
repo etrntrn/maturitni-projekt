@@ -1,9 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Instructions : MonoBehaviour
 {
+    public bool togTog;
+    public void Start()
+    {
+        /*GameObject checkbox = new GameObject();
+        checkbox.AddComponent<Toggle>();
+        Toggle tog = FindObjectOfType<Toggle>();
+        tog.isOn = false ;*/
+        //Rect position = new Rect(10, 10, 10, 10);
+        //bool togTog = GUI.Toggle(position, true, "A-D");
+        Debug.Log(togTog);
+        //Toggle checkbox1 = new Toggle();
+
+    }
+
+   /* private void OnGUI()
+    {
+        Rect position = new Rect(10, 10, 10, 10);
+        togTog = GUI.Toggle(position, true, "A-D");
+        Debug.Log(togTog);
+    }*/
+
     public List<Line> BasicInstructions()
     {
         Line lSettings = new Line();
@@ -24,13 +46,6 @@ public class Instructions : MonoBehaviour
         string[,] quadraticBezierList = new string[,] { { "bodC", "bodK", "pomocneC" }, { "bodA", "bodJ", "pomocneJ"}, { "bodZ", "bodY", "bodPomocneYZ"}, {"bodPR", "bodN", "bodHH" } };
         AddArrayToInstructionsList(basicList, quadraticBezierList, 3, "quadraticBezier");
         return basicList;
-
-        /*
-        NakresliDvojityZasevek(zasevekA1, zasevekA2, zasevekA3, zasevekA4);
-        NakresliJednoduchyZasevek(bodL1, bodM, bodL2);
-        //zadní část
-        NakresliJednoduchyZasevek(bodXXX, bodNO, bodW);
-        NakresliDvojityZasevek(zasevekB1, zasevekB2, zasevekB3, zasevekB4);*/
 
     }
 
