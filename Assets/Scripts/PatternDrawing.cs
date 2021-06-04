@@ -15,7 +15,7 @@ public class PatternDrawing : MonoBehaviour
 
     void Start()
     {
-        Instructions instr = new Instructions();
+        //Instructions instr = new Instructions();
         VisibleList visList = new VisibleList();
         List<Line> toDrawList = visList.ReadList();//instr.BasicInstructions();
         foreach(Line line in toDrawList)
